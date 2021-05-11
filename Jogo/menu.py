@@ -34,36 +34,39 @@ bal_width = 66
 
 clock = py.time.Clock()#Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
 #Desktop - Trabalho - Abrindo em pen drive
-agulha = py.image.load('../PROJETO/imagens/Agulha.png')#importa imagem da agulha
-balpreto = py.image.load('../PROJETO/imagens/balao-black.png')#importa imagem do balão preto
-balvermelho = py.image.load('../PROJETO/imagens/balao-red.png')#importa imagem do balão vermelho
-balazul = py.image.load('../PROJETO/imagens/balao-blue.png')#importa imagem do balão azul
-balverde = py.image.load('../PROJETO/imagens/balao-green.png')#importa imagem do balão verde
+agulha = py.image.load('Jogo/imagens_balloon/Agulha.png')#importa imagem da agulha
+balpreto = py.image.load('Jogo/imagens_balloon/balao-black.png')#importa imagem do balão preto
+balvermelho = py.image.load('Jogo/imagens_balloon/balao-red.png')#importa imagem do balão vermelho
+balazul = py.image.load('Jogo/imagens_balloon/balao-blue.png')#importa imagem do balão azul
+balverde = py.image.load('Jogo/imagens_balloon/balao-green.png')#importa imagem do balão verde
 #fundos de tela
-ceuintro = py.image.load('../PROJETO/imagens/ceuintro.jpg')#importa imagem para fundo da introdução/menu do jogo
-ceuranking = py.image.load('../PROJETO/imagens/ceuranking.jpg')#importa imagem para fundo da tela para input de nome que é a parte do ranking
-ceuinst = py.image.load('../PROJETO/imagens/ceuinst.png')#importa a imagem para fundo de tela de instruções
-ceucustomize = py.image.load('../PROJETO/imagens/ceucustomize.png')#importa a imagem para fundo de tela de customização
-ceujogo = py.image.load('../PROJETO/imagens/ceujogo.png')#importa a imagem para fundo de tela de jogo
-ceurank2 = py.image.load('../PROJETO/imagens/ceurank2.png')
-ceucreditos = py.image.load('../PROJETO/imagens/ceucreditos.png')
+ceuintro = py.image.load('Jogo/imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
+ceuranking = py.image.load('Jogo/imagens_balloon/ceuranking.jpg')#importa imagem para fundo da tela para input de nome que é a parte do ranking
+ceuinst = py.image.load('Jogo/imagens_balloon/ceuinst.png')#importa a imagem para fundo de tela de instruções
+ceucustomize = py.image.load('Jogo/imagens_balloon/ceucustomize.png')#importa a imagem para fundo de tela de customização
+ceujogo = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de jogo
+ceurank2 = py.image.load('Jogo/imagens_balloon/ceurank2.png')
+ceucreditos = py.image.load('Jogo/imagens_balloon/ceucreditos.png')
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
 py.mixer.init() #inicia a função para música do jogo
-py.mixer.music.load('../PROJETO/music/OMFGDOGS.ogg')#carrega a música no jogo
+py.mixer.music.load('Jogo/music/trilha_top_gear.mp3')#carrega a música no jogo
 py.mixer.music.play(-1)#coloca para tocar a música indefinidamente
 
 #movimento do gif balão em menus
-balgif1 = py.image.load('../PROJETO/imagens/balgif1.png')#importa imagem do 1° frame do gif
-balgif2 = py.image.load('../PROJETO/imagens/balgif2.png')#importa imagem do 2° frame do gif
-balgif3 = py.image.load('../PROJETO/imagens/balgif3.png')#importa imagem do 3° frame do gif
-balgif4 = py.image.load('../PROJETO/imagens/balgif4.png')#importa imagem do 4° frame do gif
-balgif5 = py.image.load('../PROJETO/imagens/balgif5.png')#importa imagem do 5° frame do gif
+balgif1 = py.image.load('Jogo/imagens_balloon/balgif1.png')#importa imagem do 1° frame do gif
+balgif2 = py.image.load('Jogo/imagens_balloon/balgif2.png')#importa imagem do 2° frame do gif
+balgif3 = py.image.load('Jogo/imagens_balloon/balgif3.png')#importa imagem do 3° frame do gif
+balgif4 = py.image.load('Jogo/imagens_balloon/balgif4.png')#importa imagem do 4° frame do gif
+balgif5 = py.image.load('Jogo/imagens_balloon/balgif5.png')#importa imagem do 5° frame do gif
 balgif = balgif1 #varíavel geral para mudar os frames depois
 balcont = 1#varíavel para contar a mudança de frames
 balImg = balpreto#varíavel para carregar uma imagem padrão de balão preto
 #Input
 textinput = pygame_textinput.TextInput()#variavel para texto
+
+def is_in_contact():
+    return x >= display_width - bal_width or x <= 0
 
 def ranking():
 
@@ -403,30 +406,30 @@ def game_intro():#função para o menu de introdução
         screen.fill(white)
         screen.blit(ceuintro,(0,0))
 
-        # sequencias de ifs e elifs para mudar a variavel de gif
-        if balcont == 1:
-            balgif = balgif1
-        elif balcont == 2:
-            balgif = balgif2
-        elif balcont == 2:
-            balgif = balgif3
-        elif balcont == 2:
-            balgif = balgif4
-        elif balcont == 5:
-            balgif = balgif5
-            balcont = 0
-        balcont+=1
+        # # sequencias de ifs e elifs para mudar a variavel de gif
+        # if balcont == 1:
+        #     balgif = balgif1
+        # elif balcont == 2:
+        #     balgif = balgif2
+        # elif balcont == 2:
+        #     balgif = balgif3
+        # elif balcont == 2:
+        #     balgif = balgif4
+        # elif balcont == 5:
+        #     balgif = balgif5
+        #     balcont = 0
+        # balcont+=1
 
-        #Vários blits da bagif em posições diferentes para ter uma animação no menu principal
-        screen.blit(balgif,(50,15))
-        screen.blit(balgif,(50,180))
-        screen.blit(balgif,(50,345))
-        screen.blit(balgif,(50,510))
+        # #Vários blits da bagif em posições diferentes para ter uma animação no menu principal
+        # screen.blit(balgif,(50,15))
+        # screen.blit(balgif,(50,180))
+        # screen.blit(balgif,(50,345))
+        # screen.blit(balgif,(50,510))
 
-        screen.blit(balgif,(550,15))
-        screen.blit(balgif,(550,180))
-        screen.blit(balgif,(550,345))
-        screen.blit(balgif,(550,510))
+        # screen.blit(balgif,(550,15))
+        # screen.blit(balgif,(550,180))
+        # screen.blit(balgif,(550,345))
+        # screen.blit(balgif,(550,510))
 
         largeText = py.font.Font('freesansbold.ttf', 95)#fonte do texto
         TextSurf, TextRec = text_objects("Balloon Survey!", largeText)
@@ -536,7 +539,7 @@ def game_loop():#o loop do jogo
         textimer = fontimer.render("Timer: " + str(displaytimer), True, black)#texto para ser renderizado com base no tempo
         screen.blit(textimer,(700,0))
 
-        if x >= display_width - bal_width or x <= 0: #não deixa o balão passar para fora da tela
+        if is_in_contact(): #não deixa o balão passar para fora da tela
             x_change = 0#
 
 
@@ -573,7 +576,7 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 20
-            if x >= display_width - bal_width or x <= 0:# a partir do nivel 4 se encostar nas paredes voce perde
+            if is_in_contact():# a partir do nivel 4 se encostar nas paredes voce perde
                 crash()
         #Nível 5
         elif dodge > 40 and dodge < 42:
@@ -583,7 +586,7 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 25
-            if x >= display_width - bal_width or x <= 0:
+            if is_in_contact():
                 crash()
         #Nível 6
         elif dodge > 40 and dodge < 42:
@@ -593,7 +596,7 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 35
-            if x >= display_width - bal_width or x <= 0:
+            if is_in_contact():
                 crash()
         if y <= thing_starty + thing_height and thing_starty <= y + bal_height:
             #print("y cross")
