@@ -35,6 +35,12 @@ bal_width = 66
 
 clock = py.time.Clock()#Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
 #Desktop - Trabalho - Abrindo em pen drive
+agulha = py.image.load('imagens/brigadeiro.png')#importa imagem do brigadeiro
+agulha = py.image.load('imagens/brocolis.png')#importa imagem do brocolis
+agulha = py.image.load('imagens/cenoura.png')#importa imagem da cenoura
+agulha = py.image.load('imagens/hamburguer.png')#importa imagem do hamburguer
+agulha = py.image.load('imagens/taco.png')#importa imagem do taco
+agulha = py.image.load('imagens/tomate.png')#importa imagem do tomate
 agulha = py.image.load('imagens/Agulha.png')#importa imagem da agulha
 gordimBlack = py.image.load('imagens/gordimBlack.png')#importa imagem do personagem preto
 gordimGreen = py.image.load('imagens/gordimGreen.png')#importa imagem do personagem vermelho
@@ -391,7 +397,7 @@ def game_intro():#função para o menu de introdução
         button("Instructions",325,450,150,50, yellow,bright_yellow,game_instruction)
         button("Quit",350,550,100,50, red, bright_red, quitgame)
         button("Creditos",50,550,125,50,purple,bright_purple,game_creditos)
-        button("Som",630,550,125,50,purple,bright_purple,audio)
+        button("Som",630,550,125,50,purple,bright_purple,game_creditos)
 
         py.display.flip()
         clock.tick(30)
