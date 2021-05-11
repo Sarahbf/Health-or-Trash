@@ -35,7 +35,7 @@ bal_width = 66
 
 clock = py.time.Clock()#Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
 #Desktop - Trabalho - Abrindo em pen drive
-agulha = py.image.load('imagens_balloon/Agulha.png')#importa imagem da agulha
+agulha = py.image.load('imagens/Agulha.png')#importa imagem da agulha
 gordimBlack = py.image.load('imagens/gordimBlack.png')#importa imagem do personagem preto
 gordimGreen = py.image.load('imagens/gordimGreen.png')#importa imagem do personagem vermelho
 gordimBlue = py.image.load('imagens/gordimBlue.png')#importa imagem do personagem azul
