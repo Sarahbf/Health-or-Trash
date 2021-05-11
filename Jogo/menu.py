@@ -112,7 +112,6 @@ def ranking():
         button("Menu",50,500,100,50,purple,bright_purple,game_intro)
         py.display.flip()
 
-
 def w_ranking(nome, dodge):#função para escrever pontos
     with open(r'Bas.csv','a') as data:#abre arquivo csv como dados
 
@@ -392,6 +391,7 @@ def game_intro():#função para o menu de introdução
         button("Instructions",325,450,150,50, yellow,bright_yellow,game_instruction)
         button("Quit",350,550,100,50, red, bright_red, quitgame)
         button("Creditos",50,550,125,50,purple,bright_purple,game_creditos)
+        button("Som",630,550,125,50,purple,bright_purple,audio)
 
         py.display.flip()
         clock.tick(30)
@@ -460,7 +460,6 @@ def game_loop():#o loop do jogo
 
         x += x_change#movimento sendo calculado no final depois dos comandos
         y += y_change
-
 
         screen.fill((white))
         screen.blit(ceujogo,(0,0))
