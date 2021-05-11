@@ -65,7 +65,7 @@ balImg = balpreto#varíavel para carregar uma imagem padrão de balão preto
 #Input
 textinput = pygame_textinput.TextInput()#variavel para texto
 
-def is_in_contact():
+def is_on_screen_limit():
     return x >= display_width - bal_width or x <= 0
 
 def ranking():
@@ -539,7 +539,8 @@ def game_loop():#o loop do jogo
         textimer = fontimer.render("Timer: " + str(displaytimer), True, black)#texto para ser renderizado com base no tempo
         screen.blit(textimer,(700,0))
 
-        if is_in_contact(): #não deixa o balão passar para fora da tela
+        if is_on_screen_limit
+    (): #não deixa o balão passar para fora da tela
             x_change = 0#
 
 
@@ -576,7 +577,8 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 20
-            if is_in_contact():# a partir do nivel 4 se encostar nas paredes voce perde
+            if is_on_screen_limit
+        ():# a partir do nivel 4 se encostar nas paredes voce perde
                 crash()
         #Nível 5
         elif dodge > 40 and dodge < 42:
@@ -586,7 +588,8 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 25
-            if is_in_contact():
+            if is_on_screen_limit
+        ():
                 crash()
         #Nível 6
         elif dodge > 40 and dodge < 42:
@@ -596,7 +599,8 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 35
-            if is_in_contact():
+            if is_on_screen_limit
+        ():
                 crash()
         if y <= thing_starty + thing_height and thing_starty <= y + bal_height:
             #print("y cross")
