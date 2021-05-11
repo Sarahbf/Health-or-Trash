@@ -9,7 +9,7 @@ py.init()#Inicia pygame
 display_width = 800 #largura da tela
 display_height = 600 #altura da tela
 screen = py.display.set_mode((display_width,display_height))#Varíavel para armazenar medidas da tela
-py.display.set_caption("Balloon Survey!")#Titulo do jogo
+py.display.set_caption("Health or Trash!")#Titulo do jogo
 
 #lista de cores
 black = (0,0,0)
@@ -18,13 +18,14 @@ red = (200,0,0)
 yellow = (200,200,0)
 blue = (0,200,200)
 purple = (139,0,139)
-black = (0,0,0)
 gray = (128,128,128)
+rosa = (255,192,203)
 green = (0,200,0)
 #cores claras para efeitos de botões
 bright_red = (255,0,0)
 bright_green = (0,255,0)
 bright_blue= (0,255,255)
+bright_rosa= (255,28,174)
 bright_yellow = (255,255,0)
 bright_purple = (255,0,255)
 bright_gray = (192,192,192)
@@ -34,34 +35,28 @@ bal_width = 66
 
 clock = py.time.Clock()#Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
 #Desktop - Trabalho - Abrindo em pen drive
-agulha = py.image.load('Jogo/imagens_balloon/Agulha.png')#importa imagem da agulha
-balpreto = py.image.load('Jogo/imagens_balloon/balao-black.png')#importa imagem do balão preto
-balvermelho = py.image.load('Jogo/imagens_balloon/balao-red.png')#importa imagem do balão vermelho
-balazul = py.image.load('Jogo/imagens_balloon/balao-blue.png')#importa imagem do balão azul
-balverde = py.image.load('Jogo/imagens_balloon/balao-green.png')#importa imagem do balão verde
+agulha = py.image.load('imagens_balloon/Agulha.png')#importa imagem da agulha
+gordimBlack = py.image.load('imagens/gordimBlack.png')#importa imagem do personagem preto
+gordimGreen = py.image.load('imagens/gordimGreen.png')#importa imagem do personagem vermelho
+gordimBlue = py.image.load('imagens/gordimBlue.png')#importa imagem do personagem azul
+gordimPink = py.image.load('imagens/gordimPink.png')#importa imagem do personagem verde
 #fundos de tela
-ceuintro = py.image.load('Jogo/imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
-ceuranking = py.image.load('Jogo/imagens_balloon/ceuranking.jpg')#importa imagem para fundo da tela para input de nome que é a parte do ranking
-ceuinst = py.image.load('Jogo/imagens_balloon/ceuinst.png')#importa a imagem para fundo de tela de instruções
-ceucustomize = py.image.load('Jogo/imagens_balloon/ceucustomize.png')#importa a imagem para fundo de tela de customização
-ceujogo = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de jogo
-ceurank2 = py.image.load('Jogo/imagens_balloon/ceurank2.png')
-ceucreditos = py.image.load('Jogo/imagens_balloon/ceucreditos.png')
+ceuintro = py.image.load('imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
+ceuranking = py.image.load('imagens/backgroundbase.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
+ceuinst = py.image.load('imagens/backgroundbase.png')#importa a imagem para fundo de tela de instruções
+ceucustomize = py.image.load('imagens/backgroundMenu.png')#importa a imagem para fundo de tela de customização
+ceujogo = py.image.load('imagens/backgroundMenu.png')#importa a imagem para fundo de tela de jogo
+ceurank2 = py.image.load('imagens/backgroundbase.png')
+ceucreditos = py.image.load('imagens/backgroundbase.png')
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
 py.mixer.init() #inicia a função para música do jogo
-py.mixer.music.load('Jogo/music/trilha_top_gear.mp3')#carrega a música no jogo
+py.mixer.music.load('music/trilha_top_gear.mp3')#carrega a música no jogo
 py.mixer.music.play(-1)#coloca para tocar a música indefinidamente
 
 #movimento do gif balão em menus
-balgif1 = py.image.load('Jogo/imagens_balloon/balgif1.png')#importa imagem do 1° frame do gif
-balgif2 = py.image.load('Jogo/imagens_balloon/balgif2.png')#importa imagem do 2° frame do gif
-balgif3 = py.image.load('Jogo/imagens_balloon/balgif3.png')#importa imagem do 3° frame do gif
-balgif4 = py.image.load('Jogo/imagens_balloon/balgif4.png')#importa imagem do 4° frame do gif
-balgif5 = py.image.load('Jogo/imagens_balloon/balgif5.png')#importa imagem do 5° frame do gif
-balgif = balgif1 #varíavel geral para mudar os frames depois
 balcont = 1#varíavel para contar a mudança de frames
-balImg = balpreto#varíavel para carregar uma imagem padrão de balão preto
+balImg = gordimBlack#varíavel para carregar uma imagem padrão de personagem preto
 #Input
 textinput = pygame_textinput.TextInput()#variavel para texto
 
@@ -78,11 +73,8 @@ def ranking():
     for num in fhand:
         num[0] = int(num[0])
 
-
         #print(num)
     fhand.sort(reverse = True)
-    
-
 
     ranking = True
     while ranking:
@@ -94,8 +86,6 @@ def ranking():
 
         screen.fill(white)
         screen.blit(ceurank2,(0,0))
-
-
 
         largeText = py.font.Font('freesansbold.ttf', 95)
         TextSurf, TextRec = text_objects("Ranking", largeText)
@@ -132,8 +122,6 @@ def w_ranking(nome, dodge):#função para escrever pontos
 def r_ranking():#função para ler o arquivo
   texto = csv.reader(open("Bas.csv","r"))#abre arquivo
 
-
-
 def input():#função para chamar a tela onde será colocado o seu nome
     scree = py.display.set_mode((800, 600))#outro display com mesmas proporções
     clock = py.time.Clock()#clock de novo para framerate
@@ -154,7 +142,6 @@ def input():#função para chamar a tela onde será colocado o seu nome
             if event.type == py.QUIT:
                 exit()
 
-
         # Atualiza o texto na superficie da tela
         scree.blit(textinput.get_surface(), (10, 10))#input de texto com posição
 
@@ -171,16 +158,10 @@ def input():#função para chamar a tela onde será colocado o seu nome
                 if event.key == py.K_RETURN:
                     ranking()
 
-
-
-
         py.display.update()#da update na tela para escrever o nome
         clock.tick(30)#frames da tela de ranking
 
-
-
     #return nome#retorna a variavel nome armazenada para o ranking
-
 
 def things_dodge(count):#função para mostrar na tela quantas coisas você desviou
     font = py.font.SysFont(None, 25)#tamanho da fonte ao ser usada
@@ -190,12 +171,11 @@ def things_dodge(count):#função para mostrar na tela quantas coisas você desv
 def things(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
     screen.blit(agulha,(thingx,thingy))#renderização da agulha com seu x e y
 
-
 def bal(x,y):#função para renderizar o balão.
     screen.blit(balImg,(x,y))#renderização do balão com seu x e y
 
 def text_objects(text, font):#Definição importante para texto na tela, recebe texto e fonte
-    textSurface = font.render(text, True, black)#variavel para receber variavel texto, com contorno verdadeiro e cor preta
+    textSurface = font.render(text, True, white)#variavel para receber variavel texto, com contorno verdadeiro e cor preta
     return textSurface, textSurface.get_rect()#retorna a renderização pelo textSurface no text e sua fonte
 
 def message_display(text):#função de mensagem que recebe texto
@@ -212,7 +192,6 @@ def message_display(text):#função de mensagem que recebe texto
 def crash():#função para mostrar uma mensagem ao chamar a função de mensagem
     message_display("Game Over!")#texto dentro da função de mensagem para ser definido como a variavel text
 
-
 #função botão que recebe mensagem, posição de mouse(x,y), largura e altura do botão que será um retangulo,ic é caso o mouse não esteja em cima do botão, e uma ação que podera chamar funções
 def button(msg, x, y, w, h, ic, ac, action = None):#ic é caso o mouse não esteja em cima do botão,ac é caso o mouse esteja em cima do botão, e uma ação que podera chamar funções
     mouse = py.mouse.get_pos()#variavel mouse para pegar a posição dele
@@ -226,7 +205,6 @@ def button(msg, x, y, w, h, ic, ac, action = None):#ic é caso o mouse não este
         if click[0] == 1 and action != None:# e for clicado com o botão esquerdo
             action()#chama a ação que será uma função dentro da variavel botão
 
-
 #            if action == "Play":
 #                game_loop()
 #            elif action == "quit":
@@ -236,12 +214,10 @@ def button(msg, x, y, w, h, ic, ac, action = None):#ic é caso o mouse não este
     else:# se o mouse não estiver em cima
         py.draw.rect(screen, ic,(x,y,w,h))#botão desenhado se o mouse não estiver em cima usando a variavel 'ic'
 
-
     smallText = py.font.Font("freesansbold.ttf",20)#essas quatro variaveis garantem o texto dentro do botão com um texto base pequeno de tamanho vinte
     textSurf, textRect = text_objects(msg, smallText)#recebe msg que será o texto e sua fonte
     textRect.center = ( (x+(w/2)), (y+(h/2)) )#garante o texto centralizado dentro do botão
     screen.blit(textSurf, textRect)#renderiza o texto
-
 
 def game_instruction():#função para a pagina instrução
     instruction = True #variavel para loop
@@ -258,12 +234,12 @@ def game_instruction():#função para a pagina instrução
         Stext = py.font.SysFont('freesansbold.ttf',40)#texto menor
         TextSurf, TextRec = text_objects("Instruções",Text)#Texto maior para instruções
         #criação de varias variaveis para pular a linha
-        TextSurf1, TextRec1 = text_objects("Use as setas 'cima, baixo, esquerda, direita'" ,Stext)
-        TextSurf2, TextRec2 = text_objects("para desviar das agulhas que vão cair randômicamente",Stext)
-        TextSurf3, TextRec3 = text_objects("ao longo do tempo de jogo.",Stext)
-        TextSurf4, TextRec4 = text_objects("A velocidade das agulhas aumenta gradativamente,",Stext)
-        TextSurf5, TextRec5 = text_objects("cuidado!",Stext)
-        TextSurf6, TextRec6 = text_objects("Game over se chegar nos limites de cima e baixo da tela!",Stext)
+        TextSurf1, TextRec1 = text_objects("Use as setas esquerda e direita para desviar" ,Stext)
+        TextSurf2, TextRec2 = text_objects("das comidas ruins que vão cair randômicamente",Stext)
+        TextSurf3, TextRec3 = text_objects("ao longo do tempo de jogo, e pegar as que são saudaveis.",Stext)
+        TextSurf4, TextRec4 = text_objects("A velocidade das comidas aumentam gradativamente,",Stext)
+        TextSurf5, TextRec5 = text_objects("cuidado! Quanto mais saudavel for, mais pontos ganha",Stext)
+        TextSurf6, TextRec6 = text_objects("Game over se comer muito mal e ficar sem pontos!",Stext)
 
         #Posição das variaveis
         TextRec.center = ((display_width/2),(display_height/6))#posição do texto 'Instruções' bem em cima da tela (por isso a altura dividida por 6)
@@ -272,7 +248,7 @@ def game_instruction():#função para a pagina instrução
         TextRec3.center = ((display_width/2),((display_height/3)+60))
         TextRec4.center = ((display_width/2),((display_height/3)+120))
         TextRec5.center = ((display_width/2),((display_height/3)+150))
-        TextRec6.center = ((display_width/2),((display_height/3)+180))
+        TextRec6.center = ((display_width/2),((display_height/3)+200))
 
         #atualização de todos os textos
         screen.blit(TextSurf, TextRec)
@@ -296,22 +272,22 @@ def game_instruction():#função para a pagina instrução
 #lista de funções para selecionar a cor do balão
 def balblack():#balão preto
     global balImg #variavel global em todas as funções para poder mudar a variavel 'balImg' com a cor desejada
-    balImg = balpreto
+    balImg = gordimBlack
     return balImg #retorna a variavel base de imagem do balão
 
 def balred():#balão vemelho
     global balImg
-    balImg = balvermelho
+    balImg = gordimGreen
     return balImg
 
 def balgreen():#balão verde
     global balImg
-    balImg = balverde
+    balImg = gordimPink
     return balImg
 
 def balblue():#balão azul
     global balImg
-    balImg = balazul
+    balImg = gordimBlue
     return balImg
 
 def game_customize():#função para a pagina de customização
@@ -322,34 +298,30 @@ def game_customize():#função para a pagina de customização
                 py.quit()
                 quit()
 
-
         screen.fill(white)
         screen.blit(ceucustomize,(0,0))
 
         largeText = py.font.Font('freesansbold.ttf', 100) #fontes para textos com tamanhos diferentes
         mediumText = py.font.Font('freesansbold.ttf',50)
 
-        TextSurf, TextRec = text_objects("Customização", largeText)#textos chamando a função de text_objects
-        TextSurf1, TextRec1 = text_objects("Customize a cor do seu balão!",mediumText)
-
-        TextRec.center = ((display_width/2),(display_height/6))
-        TextRec1.center = ((display_width/2),(display_height/2))
-
-        screen.blit(TextSurf, TextRec)
+        TextSurf1, TextRec1 = text_objects("Escolha o seu personagem!",mediumText)
+        TextRec1.center = ((display_width/2),(display_height/2.5))
         screen.blit(TextSurf1, TextRec1)
 
+        screen.blit(gordimBlack,(115,300))
+        screen.blit(gordimGreen,(290,300))
+        screen.blit(gordimBlue,(470,300))
+        screen.blit(gordimPink,(615,300))
         button("Cor preta",100,400,100,50, gray, bright_gray,balblack)# botões que chamam a função para definir o balão com cor preta,vermelha,azul e verde
-        button("Cor vermelha",250,400,150,50, red, bright_red,balred)#
+        button("Cor verde",250,400,150,50, green, bright_green,balred)#
         button("Cor azul",450,400,100,50, blue, bright_blue,balblue)#
-        button("Cor verde",600,400,100,50, green, bright_green,balgreen)#
-
-
+        button("Cor rosa",600,400,100,50, rosa, bright_rosa,balgreen)#
+        
         button("Play",650,500,100,50, green, bright_green, game_loop)#botões para jogar e voltar na tela de introdução
         button("Back",50,500,100,50,purple,bright_purple,game_intro)
 
         py.display.flip()
         clock.tick(30)
-
 
 def game_creditos():#função para créditos
     creditos = True
@@ -369,23 +341,28 @@ def game_creditos():#função para créditos
         TextSurf2, TextRec2 = text_objects("TIA: 41783441",mediumText)
         TextSurf3, TextRec3 = text_objects("Luiz H. Monteiro de Carvalho",mediumText)
         TextSurf4, TextRec4 = text_objects("TIA: 41719468",mediumText)
+        TextSurf5, TextRec5 = text_objects("Sarah Beatriz Ferreira",mediumText)
+        TextSurf6, TextRec6 = text_objects("TIA: 41732219",mediumText)
 
         TextRec.center = ((display_width/2),(display_height/6))
-        TextRec1.center = ((display_width/2-200),(display_height/3))
-        TextRec2.center = ((display_width/2-200),(display_height/3+30))
-        TextRec3.center = ((display_width/2-200),(display_height/3+120))
-        TextRec4.center = ((display_width/2-200),(display_height/3+150))
+        TextRec1.center = ((display_width/2-17),(display_height/3))
+        TextRec2.center = ((display_width/2-17),(display_height/3+30))
+        TextRec3.center = ((display_width/2-17),(display_height/3+120))
+        TextRec4.center = ((display_width/2-17),(display_height/3+150))
+        TextRec5.center = ((display_width/2-17),(display_height/3+230))
+        TextRec6.center = ((display_width/2-17),(display_height/3+260))
 
         screen.blit(TextSurf, TextRec)
         screen.blit(TextSurf1, TextRec1)
         screen.blit(TextSurf2, TextRec2)
         screen.blit(TextSurf3, TextRec3)
         screen.blit(TextSurf4, TextRec4)
+        screen.blit(TextSurf5, TextRec5)
+        screen.blit(TextSurf6, TextRec6)
         
         button("Back",50,500,100,50,purple,bright_purple,game_intro)
         py.display.flip()
         clock.tick(30)
-
 
 def quitgame():#função para sair do jogo normalmente chamada em botões
     py.quit()
@@ -394,7 +371,6 @@ def quitgame():#função para sair do jogo normalmente chamada em botões
 def game_intro():#função para o menu de introdução
 
     balcont = 1#variavel para fazer a animação do gif
-
     intro = True
     while intro:
         for event in py.event.get():
@@ -406,48 +382,19 @@ def game_intro():#função para o menu de introdução
         screen.fill(white)
         screen.blit(ceuintro,(0,0))
 
-        # # sequencias de ifs e elifs para mudar a variavel de gif
-        # if balcont == 1:
-        #     balgif = balgif1
-        # elif balcont == 2:
-        #     balgif = balgif2
-        # elif balcont == 2:
-        #     balgif = balgif3
-        # elif balcont == 2:
-        #     balgif = balgif4
-        # elif balcont == 5:
-        #     balgif = balgif5
-        #     balcont = 0
-        # balcont+=1
-
-        # #Vários blits da bagif em posições diferentes para ter uma animação no menu principal
-        # screen.blit(balgif,(50,15))
-        # screen.blit(balgif,(50,180))
-        # screen.blit(balgif,(50,345))
-        # screen.blit(balgif,(50,510))
-
-        # screen.blit(balgif,(550,15))
-        # screen.blit(balgif,(550,180))
-        # screen.blit(balgif,(550,345))
-        # screen.blit(balgif,(550,510))
-
         largeText = py.font.Font('freesansbold.ttf', 95)#fonte do texto
-        TextSurf, TextRec = text_objects("Balloon Survey!", largeText)
-        TextRec.center = ((display_width/2),(display_height/4))
-        screen.blit(TextSurf, TextRec)
+        #TextSurf, TextRec = text_objects("Balloon Survey", largeText)
+        #TextRec.center = ((display_width/2),(display_height/4))
+        #screen.blit(TextSurf, TextRec)
 
         button("Play",350,250,100,50, green, bright_green, game_loop)#botões que chamam todas as funções do jogo
-        button("Customize",335,350,125,50,blue,bright_blue,game_customize)
+        button("Personagens",335,350,150,50,blue,bright_blue,game_customize)
         button("Instructions",325,450,150,50, yellow,bright_yellow,game_instruction)
         button("Quit",350,550,100,50, red, bright_red, quitgame)
         button("Creditos",50,550,125,50,purple,bright_purple,game_creditos)
 
-
         py.display.flip()
         clock.tick(30)
-
-
-
 
 def game_loop():#o loop do jogo
 
@@ -471,8 +418,6 @@ def game_loop():#o loop do jogo
     segundos -=clock.tick()#zerando o clock tick para o timer
     timer = 0
     displaytimer = 0
-
-
 
     gameExit = False #variavel de loop
     while not gameExit: #enquanto verdadeiro = not False
@@ -526,9 +471,6 @@ def game_loop():#o loop do jogo
         bal(x,y)# chama função para renderizar
         things_dodge(dodge)# função para renderizar pontuação
 
-
-        
-
         #Incremento de tempo
         segundos = clock.tick()/460.0 # É um numero float. Por isso '.0'
         timer += segundos
@@ -539,16 +481,13 @@ def game_loop():#o loop do jogo
         textimer = fontimer.render("Timer: " + str(displaytimer), True, black)#texto para ser renderizado com base no tempo
         screen.blit(textimer,(700,0))
 
-        if is_on_screen_limit
-    (): #não deixa o balão passar para fora da tela
+        if is_on_screen_limit(): #não deixa o balão passar para fora da tela
             x_change = 0#
-
 
         if thing_starty > display_height:#caso a agulha chegue no final da tela
             thing_starty = 0 - thing_height#reseta a altura
             thing_startx = random.randrange(0, display_width)#reseta posição da agulha em uma posição randomica diferente
             dodge += 1 #aumenta em 1 a pontuação
-
 
         #Nível 2
         if dodge > 10 and dodge<12:#caso desvie de 11 objetos chega no nivel 2
@@ -577,8 +516,7 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 20
-            if is_on_screen_limit
-        ():# a partir do nivel 4 se encostar nas paredes voce perde
+            if is_on_screen_limit():# a partir do nivel 4 se encostar nas paredes voce perde
                 crash()
         #Nível 5
         elif dodge > 40 and dodge < 42:
@@ -588,8 +526,7 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 25
-            if is_on_screen_limit
-        ():
+            if is_on_screen_limit():
                 crash()
         #Nível 6
         elif dodge > 40 and dodge < 42:
@@ -599,8 +536,7 @@ def game_loop():#o loop do jogo
             screen.blit(TextSurf, TextRec)
             py.display.flip()
             thing_speed = 35
-            if is_on_screen_limit
-        ():
+            if is_on_screen_limit():
                 crash()
         if y <= thing_starty + thing_height and thing_starty <= y + bal_height:
             #print("y cross")
@@ -621,13 +557,6 @@ def game_loop():#o loop do jogo
 
         py.display.flip()
         clock.tick(100)
-
-
-
-
-
-
-
 
 game_intro()#chama a introdução/menu para o jogo
 game_loop(balImg)
