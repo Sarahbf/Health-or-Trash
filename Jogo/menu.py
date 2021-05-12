@@ -10,6 +10,7 @@ display_width = 800 #largura da tela
 display_height = 600 #altura da tela
 screen = py.display.set_mode((display_width,display_height))#Varíavel para armazenar medidas da tela
 py.display.set_caption("Health or Trash!")#Titulo do jogo
+music = True #Musica ligada
 
 #lista de cores
 black = (0,0,0)
@@ -29,40 +30,40 @@ bright_rosa= (255,28,174)
 bright_yellow = (255,255,0)
 bright_purple = (255,0,255)
 bright_gray = (192,192,192)
-#Medida do balão
+#Medida do 
 bal_height = 80
 bal_width = 66
 
 clock = py.time.Clock()#Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
 #Desktop - Trabalho - Abrindo em pen drive
-agulha = py.image.load('imagens/brigadeiro.png')#importa imagem do brigadeiro
-agulha = py.image.load('imagens/brocolis.png')#importa imagem do brocolis
-agulha = py.image.load('imagens/cenoura.png')#importa imagem da cenoura
-agulha = py.image.load('imagens/hamburguer.png')#importa imagem do hamburguer
-agulha = py.image.load('imagens/taco.png')#importa imagem do taco
-agulha = py.image.load('imagens/tomate.png')#importa imagem do tomate
-agulha = py.image.load('imagens/Agulha.png')#importa imagem da agulha
-gordimBlack = py.image.load('imagens/gordimBlack.png')#importa imagem do personagem preto
-gordimGreen = py.image.load('imagens/gordimGreen.png')#importa imagem do personagem vermelho
-gordimBlue = py.image.load('imagens/gordimBlue.png')#importa imagem do personagem azul
-gordimPink = py.image.load('imagens/gordimPink.png')#importa imagem do personagem verde
+agulha = py.image.load('Jogo/imagens/brigadeiro.png')#importa imagem do brigadeiro
+agulha = py.image.load('Jogo/imagens/brocolis.png')#importa imagem do brocolis
+agulha = py.image.load('Jogo/imagens/cenoura.png')#importa imagem da cenoura
+agulha = py.image.load('Jogo/imagens/hamburguer.png')#importa imagem do hamburguer
+agulha = py.image.load('Jogo/imagens/taco.png')#importa imagem do taco
+agulha = py.image.load('Jogo/imagens/tomate.png')#importa imagem do tomate
+agulha = py.image.load('Jogo/imagens/Agulha.png')#importa imagem da agulha
+gordimBlack = py.image.load('Jogo/imagens/gordimBlack.png')#importa imagem do personagem preto
+gordimGreen = py.image.load('Jogo/imagens/gordimGreen.png')#importa imagem do personagem vermelho
+gordimBlue = py.image.load('Jogo/imagens/gordimBlue.png')#importa imagem do personagem azul
+gordimPink = py.image.load('Jogo/imagens/gordimPink.png')#importa imagem do personagem verde
 #fundos de tela
-ceuintro = py.image.load('imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
-ceuranking = py.image.load('imagens/backgroundbase.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
-ceuinst = py.image.load('imagens/backgroundbase.png')#importa a imagem para fundo de tela de instruções
-ceucustomize = py.image.load('imagens/backgroundMenu.png')#importa a imagem para fundo de tela de customização
-ceujogo = py.image.load('imagens/backgroundMenu.png')#importa a imagem para fundo de tela de jogo
-ceurank2 = py.image.load('imagens/backgroundbase.png')
-ceucreditos = py.image.load('imagens/backgroundbase.png')
+ceuintro = py.image.load('Jogo/imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
+ceuranking = py.image.load('Jogo/imagens/backgroundbase.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
+ceuinst = py.image.load('Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de instruções
+ceucustomize = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de customização
+ceujogo = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de jogo
+ceurank2 = py.image.load('Jogo/imagens/backgroundbase.png')
+ceucreditos = py.image.load('Jogo/imagens/backgroundbase.png')
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
 py.mixer.init() #inicia a função para música do jogo
-py.mixer.music.load('music/trilha_top_gear.mp3')#carrega a música no jogo
+py.mixer.music.load('Jogo/music/trilha_top_gear.mp3')#carrega a música no jogo
 py.mixer.music.play(-1)#coloca para tocar a música indefinidamente
 
-#movimento do gif balão em menus
+#movimento do gif  em menus
 balcont = 1#varíavel para contar a mudança de frames
-balImg = gordimBlack#varíavel para carregar uma imagem padrão de personagem preto
+playerImg = gordimBlack#varíavel para carregar uma imagem padrão de personagem preto
 #Input
 textinput = pygame_textinput.TextInput()#variavel para texto
 
@@ -176,8 +177,8 @@ def things_dodge(count):#função para mostrar na tela quantas coisas você desv
 def things(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
     screen.blit(agulha,(thingx,thingy))#renderização da agulha com seu x e y
 
-def bal(x,y):#função para renderizar o balão.
-    screen.blit(balImg,(x,y))#renderização do balão com seu x e y
+def bal(x,y):#função para renderizar o .
+    screen.blit(playerImg,(x,y))#renderização do  com seu x e y
 
 def text_objects(text, font):#Definição importante para texto na tela, recebe texto e fonte
     textSurface = font.render(text, True, white)#variavel para receber variavel texto, com contorno verdadeiro e cor preta
@@ -274,26 +275,26 @@ def game_instruction():#função para a pagina instrução
         py.display.flip()#atualização da tela
         clock.tick(30)#frames da tela
 
-#lista de funções para selecionar a cor do balão
-def balblack():#balão preto
-    global balImg #variavel global em todas as funções para poder mudar a variavel 'balImg' com a cor desejada
-    balImg = gordimBlack
-    return balImg #retorna a variavel base de imagem do balão
+#lista de funções para selecionar a cor do 
+def player_black():# preto
+    global player_Img #variavel global em todas as funções para poder mudar a variavel 'playerImg' com a cor desejada
+    player_Img = gordimBlack
+    return player_Img #retorna a variavel base de imagem do 
 
-def balred():#balão vemelho
-    global balImg
-    balImg = gordimGreen
-    return balImg
+def player_red():# vemelho
+    global player_Img
+    player_Img = gordimGreen
+    return player_Img
 
-def balgreen():#balão verde
-    global balImg
-    balImg = gordimPink
-    return balImg
+def player_green():# verde
+    global player_Img
+    player_Img = gordimPink
+    return player_Img
 
-def balblue():#balão azul
-    global balImg
-    balImg = gordimBlue
-    return balImg
+def player_blue():# azul
+    global player_Img
+    player_Img = gordimBlue
+    return player_Img
 
 def game_customize():#função para a pagina de customização
     customize = True
@@ -317,16 +318,23 @@ def game_customize():#função para a pagina de customização
         screen.blit(gordimGreen,(290,300))
         screen.blit(gordimBlue,(470,300))
         screen.blit(gordimPink,(615,300))
-        button("Cor preta",100,400,100,50, gray, bright_gray,balblack)# botões que chamam a função para definir o balão com cor preta,vermelha,azul e verde
-        button("Cor verde",250,400,150,50, green, bright_green,balred)#
-        button("Cor azul",450,400,100,50, blue, bright_blue,balblue)#
-        button("Cor rosa",600,400,100,50, rosa, bright_rosa,balgreen)#
+        button("Cor preta",100,400,100,50, gray, bright_gray,player_black)# botões que chamam a função para definir o  com cor preta,vermelha,azul e verde
+        button("Cor verde",250,400,150,50, green, bright_green,player_red)#
+        button("Cor azul",450,400,100,50, blue, bright_blue,player_blue)#
+        button("Cor rosa",600,400,100,50, rosa, bright_rosa,player_green)#
         
         button("Play",650,500,100,50, green, bright_green, game_loop)#botões para jogar e voltar na tela de introdução
         button("Back",50,500,100,50,purple,bright_purple,game_intro)
 
         py.display.flip()
         clock.tick(30)
+
+def pause_music():
+    py.mixer.music.pause()
+
+def unpause_music():
+    py.mixer.music.unpause()
+
 
 def game_creditos():#função para créditos
     creditos = True
@@ -388,182 +396,23 @@ def game_intro():#função para o menu de introdução
         screen.blit(ceuintro,(0,0))
 
         largeText = py.font.Font('freesansbold.ttf', 95)#fonte do texto
-        #TextSurf, TextRec = text_objects("Balloon Survey", largeText)
-        #TextRec.center = ((display_width/2),(display_height/4))
-        #screen.blit(TextSurf, TextRec)
-
+        
         button("Play",350,250,100,50, green, bright_green, game_loop)#botões que chamam todas as funções do jogo
         button("Personagens",335,350,150,50,blue,bright_blue,game_customize)
         button("Instructions",325,450,150,50, yellow,bright_yellow,game_instruction)
         button("Quit",350,550,100,50, red, bright_red, quitgame)
         button("Creditos",50,550,125,50,purple,bright_purple,game_creditos)
-        button("Som",630,550,125,50,purple,bright_purple,game_creditos)
+        button("Som on",530,550,105,50,purple,bright_purple,unpause_music)
+        button("Som off",650,550,105,50,purple,bright_purple,pause_music)
 
         py.display.flip()
         clock.tick(30)
 
 def game_loop():#o loop do jogo
 
-    global dodge #deixando a variavel dodge em global para ser usada em outras funções como ranking
-    dodge = 0
-    x = (display_width * 0.45)# posição inicial do balão
-    y = (display_height * 0.85)
-
-    #variaveis
-    x_change = 0 #mudança de x do balão
-    y_change = 0 #mudança de y do balão
-    bal_speed = 0 #velocidade do balão
-    thing_startx = random.randrange(0, display_width)#posição x randomicamente, em um raio de 0 e indo até o valor total de largura da tela
-    thing_starty = -600 #caindo do começo da tela
-    thing_speed = 10 #velocidade da agulha
-    thing_width = 15 #largura da agulha
-    thing_height = 70 #altura da agulha
-    timer = 0# Um timer começando do zero
-
-    segundos = 0
-    segundos -=clock.tick()#zerando o clock tick para o timer
-    timer = 0
-    displaytimer = 0
-
-    gameExit = False #variavel de loop
-    while not gameExit: #enquanto verdadeiro = not False
-        for event in py.event.get():
-            if event.type == py.QUIT:
-                py.quit()
-                quit()
-
-            if event.type == py.KEYDOWN: #teclas sendo pressionadas
-                if event.key == py.K_LEFT: #para a esquerda
-                    if x <= 0: #se ele chegar no limite da tela
-                        x_change = 0 #para de se mover
-                    else:
-                        x_change = -8 #se não continua movendo para a esquerda
-                elif event.key == py.K_RIGHT:#para a direita
-                    if x >= display_width - bal_width:#se chegar no limite da tela
-                        x_change = 0#ele para de se mover
-                    else:
-                        x_change = 8#continua movendo para a direita
-                elif event.key == py.K_UP:#para subir
-                    if y-bal_height < 0:
-                        y_change = 0
-                        crash()
-                    else:
-                        y_change = -1
-                        #y é decrescido para o balão subir
-                        
-                elif event.key == py.K_DOWN:#para descer
-                    if y +bal_height > display_height:
-                        y_change = 0
-                        crash()
-                    y_change = 2
-                    
-            if event.type == py.KEYUP:#caso a tecla seja deixado de ser pressionado
-                if event.key == py.K_LEFT or event.key == py.K_RIGHT:#se as teclas de esquerda e direita forem deixadas de ser pressionadas
-                    x_change = 0#a posição a ser calculada no eixo x é 0
-
-                elif event.key == py.K_UP or event.key == py.K_DOWN:#se as teclas de cima e baixo forem deixadas de ser pressionadas
-                    y_change = 0#a posição a ser calculada no eixo y é 0
-
-        x += x_change#movimento sendo calculado no final depois dos comandos
-        y += y_change
-
-        screen.fill((white))
-        screen.blit(ceujogo,(0,0))
-
-        things(thing_startx, thing_starty)#chama função para renderizar
-        thing_starty += thing_speed #soma a velocidade a cada loop e desvio de agulha
-
-        bal(x,y)# chama função para renderizar
-        things_dodge(dodge)# função para renderizar pontuação
-
-        #Incremento de tempo
-        segundos = clock.tick()/460.0 # É um numero float. Por isso '.0'
-        timer += segundos
-        displaytimer = math.trunc(timer)
-        
-        #Sem chamar uma função para o tempo a renderização é feita dentro do próprio loop de jogo
-        fontimer = py.font.SysFont(None,25)#tamanho da fonte do timer
-        textimer = fontimer.render("Timer: " + str(displaytimer), True, black)#texto para ser renderizado com base no tempo
-        screen.blit(textimer,(700,0))
-
-        if is_on_screen_limit(): #não deixa o balão passar para fora da tela
-            x_change = 0#
-
-        if thing_starty > display_height:#caso a agulha chegue no final da tela
-            thing_starty = 0 - thing_height#reseta a altura
-            thing_startx = random.randrange(0, display_width)#reseta posição da agulha em uma posição randomica diferente
-            dodge += 1 #aumenta em 1 a pontuação
-
-        #Nível 2
-        if dodge > 10 and dodge<12:#caso desvie de 11 objetos chega no nivel 2
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 2!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)#printa na tela que está no nivel dois
-            py.display.flip()
-
-            #time.sleep(1)
-            thing_speed = 13 #aumenta a velocidade da agulha
-            #E assim por diante
-        #Nível 3
-        elif dodge > 20 and dodge < 22:
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 3!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)
-            py.display.flip()
-            thing_speed = 16
-        #Nível 4
-        elif dodge > 30 and dodge < 32:
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 4!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)
-            py.display.flip()
-            thing_speed = 20
-            if is_on_screen_limit():# a partir do nivel 4 se encostar nas paredes voce perde
-                crash()
-        #Nível 5
-        elif dodge > 40 and dodge < 42:
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 5!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)
-            py.display.flip()
-            thing_speed = 25
-            if is_on_screen_limit():
-                crash()
-        #Nível 6
-        elif dodge > 40 and dodge < 42:
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 6!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)
-            py.display.flip()
-            thing_speed = 35
-            if is_on_screen_limit():
-                crash()
-        if y <= thing_starty + thing_height and thing_starty <= y + bal_height:
-            #print("y cross")
-#um if para colisão.
-#Se o começo de x da agulha for maior que a posição x de movimento do balão + largura do balão
-#'E' a posição 'x' de movimento '+' a largura do balão forem maiores que o começo x da agulha
-#'Ou' a posição x + a largura do balão maior que o começo da agulha
-#'E' a posição x + a largura do balão menor que o começo da agulha + sua largura
-#'Ou' a posição x + a largura do balão dividida por 2 maior que o começo da agulha
-#'E' a posição x + a largura do balão dividida por 2 menor que o começo da agulha+ sua largura: chama a função de colisão
-            if   thing_startx >= x and x + bal_width >= thing_startx or x+bal_width >= thing_startx and x + bal_width <= thing_startx+thing_width or x+(bal_width / 2) >= thing_startx and x+(bal_width / 2) <= thing_startx+thing_width :
-
-                crash()
-                dodge = 0#reseta a pontuação
-                timer -= clock.tick()#reseta timer
-                clock.reset()
-                displaytimer -=displaytimer
-
-        py.display.flip()
-        clock.tick(100)
+   return "Logo menos"
 
 game_intro()#chama a introdução/menu para o jogo
-game_loop(balImg)
+game_loop(playerImg)
 py.quit()#caso o loop acabe sai do jogo
 quit()
