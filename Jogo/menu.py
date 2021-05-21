@@ -4,6 +4,7 @@ import time #importa tempo para regular a velocidade do jogo
 import random #importa random para randomizar a queda de objetos no jogo
 import math #importa a biblioteca de matematica para o temporizador no jogo
 import csv #importa arquivo para guardar o ranking
+from score import Score
 
 py.init()#Inicia pygame
 display_width = 800 #largura da tela
@@ -11,7 +12,7 @@ display_height = 600 #altura da tela
 screen = py.display.set_mode((display_width,display_height))#Varíavel para armazenar medidas da tela
 py.display.set_caption("Health or Trash!")#Titulo do jogo
 music = True #Musica ligada
-
+score = Score(0)
 #lista de cores
 black = (0,0,0)
 white = (255,255,255)
@@ -36,17 +37,20 @@ bal_width = 66
 
 clock = py.time.Clock()#Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
 #Desktop - Trabalho - Abrindo em pen drive
-agulha = py.image.load('Jogo/imagens/brigadeiro.png')#importa imagem do brigadeiro
-agulha = py.image.load('Jogo/imagens/brocolis.png')#importa imagem do brocolis
-agulha = py.image.load('Jogo/imagens/cenoura.png')#importa imagem da cenoura
-agulha = py.image.load('Jogo/imagens/hamburguer.png')#importa imagem do hamburguer
-agulha = py.image.load('Jogo/imagens/taco.png')#importa imagem do taco
-agulha = py.image.load('Jogo/imagens/tomate.png')#importa imagem do tomate
-agulha = py.image.load('Jogo/imagens/Agulha.png')#importa imagem da agulha
+brigadeiro = py.image.load('Jogo/imagens/brigadeiro.png')#importa imagem do brigadeiro
+brocolis = py.image.load('Jogo/imagens/brocolis.png')#importa imagem do brocolis
+cenoura = py.image.load('Jogo/imagens/cenoura.png')#importa imagem da cenoura
+hamburguer = py.image.load('Jogo/imagens/hamburguer.png')#importa imagem do hamburguer
+taco = py.image.load('Jogo/imagens/taco.png')#importa imagem do taco
+tomate = py.image.load('Jogo/imagens/tomate.png')#importa imagem do tomate
+Agulha = py.image.load('Jogo/imagens/Agulha.png')#importa imagem da agulha
 gordimBlack = py.image.load('Jogo/imagens/gordimBlack.png')#importa imagem do personagem preto
 gordimGreen = py.image.load('Jogo/imagens/gordimGreen.png')#importa imagem do personagem vermelho
 gordimBlue = py.image.load('Jogo/imagens/gordimBlue.png')#importa imagem do personagem azul
 gordimPink = py.image.load('Jogo/imagens/gordimPink.png')#importa imagem do personagem verde
+health_foods = [brocolis, cenoura, tomate]
+unhealth_foods = [brigadeiro, hamburguer, taco]
+
 #fundos de tela
 ceuintro = py.image.load('Jogo/imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
 ceuranking = py.image.load('Jogo/imagens/backgroundbase.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
@@ -171,11 +175,14 @@ def input():#função para chamar a tela onde será colocado o seu nome
 
 def things_dodge(count):#função para mostrar na tela quantas coisas você desviou
     font = py.font.SysFont(None, 25)#tamanho da fonte ao ser usada
-    text = font.render("Score: " + str(count), True, black)#texto para ser renderizado com base na variavel count (pontuação), com contorno e de cor preta
+    text = font.render("Score: " + str(score.total), True, (255,255,255))#texto para ser renderizado com base na variavel count (pontuação), com contorno e de cor preta
     screen.blit(text,(0,0))#renderização do texto na tela
 
-def things(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
-    screen.blit(agulha,(thingx,thingy))#renderização da agulha com seu x e y
+def health_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
+    screen.blit(brocolis,(thingx,thingy))#renderização da agulha com seu x e y
+
+def unhealth_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
+    screen.blit(hamburguer,(thingx,thingy))#renderização da agulha com seu x e y
 
 def bal(x,y):#função para renderizar o .
     screen.blit(playerImg,(x,y))#renderização do  com seu x e y
@@ -195,8 +202,24 @@ def message_display(text):#função de mensagem que recebe texto
 
     nome = input()#chama o input
 
-def crash():#função para mostrar uma mensagem ao chamar a função de mensagem
+def game_over():#função para mostrar uma mensagem ao chamar a função de mensagem
     message_display("Game Over!")#texto dentro da função de mensagem para ser definido como a variavel text
+    score.reset()
+    timer -= clock.tick()#reseta timer
+    clock.reset()
+    displaytimer -=displaytimer
+
+def is_game_over():
+    return score.total < 0
+
+def health_food_colision():
+    score.sum_health_food()
+    
+
+def unhealth_food_colision():
+    score.sum_unhealth_food()
+    if is_game_over():
+        game_over()
 
 #função botão que recebe mensagem, posição de mouse(x,y), largura e altura do botão que será um retangulo,ic é caso o mouse não esteja em cima do botão, e uma ação que podera chamar funções
 def button(msg, x, y, w, h, ic, ac, action = None):#ic é caso o mouse não esteja em cima do botão,ac é caso o mouse esteja em cima do botão, e uma ação que podera chamar funções
@@ -409,10 +432,179 @@ def game_intro():#função para o menu de introdução
         clock.tick(30)
 
 def game_loop():#o loop do jogo
+    
+    global dodge #deixando a variavel dodge em global para ser usada em outras funções como ranking
+    dodge = 0
+    x = (display_width * 0.45)# posição inicial do balão
+    y = (display_height * 0.85)
 
-   return "Logo menos"
+    #variaveis
+    x_change = 0 #mudança de x do balão
+    y_change = 0 #mudança de y do balão
+    bal_speed = 0 #velocidade do balão
+    health_foodx = random.randrange(0, display_width)#posição x randomicamente, em um raio de 0 e indo até o valor total de largura da tela
+    unhealth_foodx = random.randrange(0, display_width)#posição x randomicamente, em um raio de 0 e indo até o valor total de largura da tela
+    health_foody = -600 #caindo do começo da tela
+    unhealth_foody = -600 #caindo do começo da tela
+    thing_speed = 2 #velocidade da agulha
+    thing_width = 15 #largura da agulha
+    thing_height = 70 #altura da agulha
+    timer = 0# Um timer começando do zero
+
+    segundos = 0
+    segundos -=clock.tick()#zerando o clock tick para o timer
+    timer = 0
+    displaytimer = 0
+
+
+
+    gameExit = False #variavel de loop
+    while not gameExit: #enquanto verdadeiro = not False
+        for event in py.event.get():
+            if event.type == py.QUIT:
+                py.quit()
+                quit()
+
+            if event.type == py.KEYDOWN: #teclas sendo pressionadas
+                if event.key == py.K_LEFT: #para a esquerda
+                    if x <= 0: #se ele chegar no limite da tela
+                        x_change = 0 #para de se mover
+                    else:
+                        x_change = -8 #se não continua movendo para a esquerda
+                elif event.key == py.K_RIGHT:#para a direita
+                    if x >= display_width - bal_width:#se chegar no limite da tela
+                        x_change = 0#ele para de se mover
+                    else:
+                        x_change = 8#continua movendo para a direita
+                elif event.key == py.K_UP:#para subir
+                    if y-bal_height < 0:
+                        y_change = 0
+                        game_over()
+                    else:
+                        y_change = -1
+                        #y é decrescido para o balão subir
+                        
+                elif event.key == py.K_DOWN:#para descer
+                    if y +bal_height > display_height:
+                        y_change = 0
+                        game_over()
+                    y_change = 2
+                    
+            if event.type == py.KEYUP:#caso a tecla seja deixado de ser pressionado
+                if event.key == py.K_LEFT or event.key == py.K_RIGHT:#se as teclas de esquerda e direita forem deixadas de ser pressionadas
+                    x_change = 0#a posição a ser calculada no eixo x é 0
+
+                elif event.key == py.K_UP or event.key == py.K_DOWN:#se as teclas de cima e baixo forem deixadas de ser pressionadas
+                    y_change = 0#a posição a ser calculada no eixo y é 0
+
+        x += x_change#movimento sendo calculado no final depois dos comandos
+        y += y_change
+
+
+        screen.fill((white))
+        screen.blit(ceujogo,(0,0))
+
+        health_food(health_foodx, health_foody)#chama função para renderizar
+        unhealth_food(unhealth_foodx, unhealth_foody)
+        health_foody += thing_speed #soma a velocidade a cada loop e desvio de agulha
+        unhealth_foody += thing_speed
+
+        bal(x,y)# chama função para renderizar
+        things_dodge(dodge)# função para renderizar pontuação
+
+
+        
+
+        #Incremento de tempo
+        segundos = clock.tick()/460.0 # É um numero float. Por isso '.0'
+        timer += segundos
+        displaytimer = math.trunc(timer)
+        
+        #Sem chamar uma função para o tempo a renderização é feita dentro do próprio loop de jogo
+        fontimer = py.font.SysFont(None,25)#tamanho da fonte do timer
+        textimer = fontimer.render("Timer: " + str(displaytimer), True, black)#texto para ser renderizado com base no tempo
+        screen.blit(textimer,(700,0))
+
+        if x >= display_width - bal_width or x <= 0: #não deixa o balão passar para fora da tela
+            x_change = 0#
+
+
+        if health_foody > display_height:#caso a agulha chegue no final da tela
+            health_foody = 0 - thing_height#reseta a altura
+            health_foodx = random.randrange(0, display_width)#reseta posição da agulha em uma posição randomica diferente
+        
+        if unhealth_foody > display_height:#caso a agulha chegue no final da tela
+            unhealth_foody = 0 - thing_height#reseta a altura
+            unhealth_foodx = random.randrange(0, display_width)#reseta posição da agulha em uma posição randomica diferente
+
+
+        #Nível 2
+        if dodge > 10 and dodge<12:#caso desvie de 11 objetos chega no nivel 2
+            largeText = py.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRec = text_objects('Nível 2!', largeText)
+            TextRec.center = ((display_width/2),(display_height/2))
+            screen.blit(TextSurf, TextRec)#printa na tela que está no nivel dois
+            py.display.flip()
+
+            #time.sleep(1)
+            thing_speed = 13 #aumenta a velocidade da agulha
+            #E assim por diante
+        #Nível 3
+        elif dodge > 20 and dodge < 22:
+            largeText = py.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRec = text_objects('Nível 3!', largeText)
+            TextRec.center = ((display_width/2),(display_height/2))
+            screen.blit(TextSurf, TextRec)
+            py.display.flip()
+            thing_speed = 16
+        #Nível 4
+        elif dodge > 30 and dodge < 32:
+            largeText = py.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRec = text_objects('Nível 4!', largeText)
+            TextRec.center = ((display_width/2),(display_height/2))
+            screen.blit(TextSurf, TextRec)
+            py.display.flip()
+            thing_speed = 20
+            if x >= display_width - bal_width or x <= 0:# a partir do nivel 4 se encostar nas paredes voce perde
+                game_over()
+        #Nível 5
+        elif dodge > 40 and dodge < 42:
+            largeText = py.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRec = text_objects('Nível 5!', largeText)
+            TextRec.center = ((display_width/2),(display_height/2))
+            screen.blit(TextSurf, TextRec)
+            py.display.flip()
+            thing_speed = 25
+            if x >= display_width - bal_width or x <= 0:
+                game_over()
+        #Nível 6
+        elif dodge > 40 and dodge < 42:
+            largeText = py.font.Font('freesansbold.ttf', 115)
+            TextSurf, TextRec = text_objects('Nível 6!', largeText)
+            TextRec.center = ((display_width/2),(display_height/2))
+            screen.blit(TextSurf, TextRec)
+            py.display.flip()
+            thing_speed = 35
+            if x >= display_width - bal_width or x <= 0:
+                game_over()
+        if y <= health_foody + thing_height and health_foody <= y + bal_height:
+            if health_foodx >= x and x + bal_width >= health_foodx or x+bal_width >= health_foodx and x + bal_width <= health_foodx+thing_width or x+(bal_width / 2) >= health_foodx and x+(bal_width / 2) <= health_foodx+thing_width :
+                health_food_colision()
+                health_foody = 0 - thing_height#reseta a altura
+                health_foodx = random.randrange(0, display_width)
+        
+        if y <= unhealth_foody + thing_height and unhealth_foody <= y + bal_height:
+            if unhealth_foodx >= x and x + bal_width >= unhealth_foodx or x+bal_width >= unhealth_foodx and x + bal_width <= unhealth_foodx+thing_width or x+(bal_width / 2) >= unhealth_foodx and x+(bal_width / 2) <= unhealth_foodx+thing_width :
+                unhealth_food_colision()
+                unhealth_foody = 0 - thing_height#reseta a altura
+                unhealth_foodx = random.randrange(0, display_width)
+
+        py.display.flip()
+        clock.tick(100)
+
 
 game_intro()#chama a introdução/menu para o jogo
-game_loop(playerImg)
+game_loop(balImg)
 py.quit()#caso o loop acabe sai do jogo
 quit()
+
