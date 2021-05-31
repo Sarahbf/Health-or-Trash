@@ -33,7 +33,7 @@ bright_purple = (255,0,255)
 bright_gray = (192,192,192)
 #Medida do 
 bal_height = 80
-bal_width = 66
+bal_width = 65
 
 villain_height = 111
 villain_width = 75
@@ -61,7 +61,7 @@ ceuintro = py.image.load('Jogo/imagens/backgroundMenu.png')#importa imagem para 
 ceuranking = py.image.load('Jogo/imagens/backgroundbase.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
 ceuinst = py.image.load('Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de instruções
 ceucustomize = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de customização
-ceujogo = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de jogo
+ceujogo = py.image.load('Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de jogo
 ceurank2 = py.image.load('Jogo/imagens/backgroundbase.png')
 ceucreditos = py.image.load('Jogo/imagens/backgroundbase.png')
 #sons musicais
@@ -184,16 +184,16 @@ def things_dodge(count):#função para mostrar na tela quantas coisas você desv
     screen.blit(text,(0,0))#renderização do texto na tela
 
 def villain_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
-    screen.blit(villain_foodImg,(thingx,thingy))#renderização da agulha com seu x e y
+    return screen.blit(villain_foodImg,(thingx,thingy))#renderização da agulha com seu x e y
 
 def health_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
-    screen.blit(brocolis,(thingx,thingy))#renderização da agulha com seu x e y
+    return screen.blit(brocolis,(thingx,thingy))#renderização da agulha com seu x e y
 
 def unhealth_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
-    screen.blit(hamburguer,(thingx,thingy))#renderização da agulha com seu x e y
+    return screen.blit(hamburguer,(thingx,thingy))#renderização da agulha com seu x e y
 
-def bal(x,y):#função para renderizar o .
-    screen.blit(playerImg,(x,y))#renderização do  com seu x e y
+def render_player(x,y):#função para renderizar o .
+    return screen.blit(playerImg,(x,y))#renderização do  com seu x e y
 
 def villain(villainx,villainy):#função para renderizar o .
     screen.blit(playerImg,(villainx,villainy))#renderização do  com seu x e y
@@ -531,16 +531,16 @@ def game_loop():#o loop do jogo
         screen.fill((white))
         screen.blit(ceujogo,(0,0))
 
-        health_food(health_foodx, health_foody)#chama função para renderizar
-        unhealth_food(unhealth_foodx, unhealth_foody)
+        health_food_img = health_food(health_foodx, health_foody)#chama função para renderizar
+        unhealth_food_img =unhealth_food(unhealth_foodx, unhealth_foody)
         health_foody += thing_speed #soma a velocidade a cada loop e desvio de agulha
         unhealth_foody += thing_speed
         villain_foody += thing_speed
 
-        bal(x,y)# chama função para renderizar
+        player = render_player(x,y)# chama função para renderizar
         
         villain(villainx, 0)
-        villain_food(villainx, villain_foody)
+        villain_food_img = villain_food(villainx, villain_foody)
         things_dodge(dodge)# função para renderizar pontuação
 
 
@@ -621,24 +621,21 @@ def game_loop():#o loop do jogo
             thing_speed = 35
             if x >= display_width - bal_width or x <= 0:
                 game_over()
-                
-        if y <= health_foody + thing_height and health_foody <= y + bal_height:
-            if health_foodx >= x and x + bal_width >= health_foodx or x+bal_width >= health_foodx and x + bal_width <= health_foodx+thing_width or x+(bal_width / 2) >= health_foodx and x+(bal_width / 2) <= health_foodx+thing_width :
-                health_food_colision()
-                health_foody = 0 - thing_height#reseta a altura
-                health_foodx = random.randrange(0, display_width)
+
+        if health_food_img.colliderect(player):
+            health_food_colision()
+            health_foody = 0 - thing_height#reseta a altura
+            health_foodx = random.randrange(0, display_width)
         
-        if y <= unhealth_foody + thing_height and unhealth_foody <= y + bal_height:
-            if unhealth_foodx >= x and x + bal_width >= unhealth_foodx or x+bal_width >= unhealth_foodx and x + bal_width <= unhealth_foodx+thing_width or x+(bal_width / 2) >= unhealth_foodx and x+(bal_width / 2) <= unhealth_foodx+thing_width :
-                unhealth_food_colision()
-                unhealth_foody = 0 - thing_height#reseta a altura
-                unhealth_foodx = random.randrange(0, display_width)
+        if unhealth_food_img.colliderect(player):
+            unhealth_food_colision()
+            unhealth_foody = 0 - thing_height#reseta a altura
+            unhealth_foodx = random.randrange(0, display_width)
         
-        if y <= villain_foody + thing_height and villain_foody <= y + bal_height:
-            if villain_foodx >= x and x + bal_width >= villain_foodx or x+bal_width >= villain_foodx and x + bal_width <= villain_foodx+thing_width or x+(bal_width / 2) >= villain_foodx and x+(bal_width / 2) <= villain_foodx+thing_width :
-                unhealth_food_colision()
-                villain_foody = villainy
-                villain_foodx = villainx
+        if villain_food_img.colliderect(player):
+            unhealth_food_colision()
+            villain_foody = villainy
+            villain_foodx = villainx
 
         py.display.flip()
         clock.tick(100)
