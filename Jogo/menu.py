@@ -70,8 +70,8 @@ ceucreditos = py.image.load('Jogo/imagens/backgroundbase.png')
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
 py.mixer.init() #inicia a função para música do jogo
-py.mixer.music.load('Jogo/music/trilha_top_gear.mp3')#carrega a música no jogo
-py.mixer.music.play(-1)#coloca para tocar a música indefinidamente
+py.mixer.Channel(0).play(py.mixer.Sound('Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
+py.mixer.Channel(0).set_volume(0.03)
 
 #movimento do gif  em menus
 balcont = 1#varíavel para contar a mudança de frames
@@ -222,6 +222,8 @@ def message_display(text):#função de mensagem que recebe texto
     nome = input()#chama o input
 
 def game_over():#função para mostrar uma mensagem ao chamar a função de mensagem
+    py.mixer.Channel(3).play(py.mixer.Sound('Jogo/music/gameover.mp3'))
+    py.mixer.Channel(3).set_volume(0.1)
     message_display("Game Over!")#texto dentro da função de mensagem para ser definido como a variavel text
     score.reset()
     timer -= clock.tick()#reseta timer
@@ -232,9 +234,13 @@ def is_game_over():
     return VIDAS.quantity == 0
 
 def health_food_colision():
-    score.sum_health_food()    
+    py.mixer.Channel(1).play(py.mixer.Sound('Jogo/music/good.mp3'))
+    py.mixer.Channel(1).set_volume(0.1)
+    score.sum_health_food()
 
 def unhealth_food_colision():
+    py.mixer.Channel(2).play(py.mixer.Sound('Jogo/music/wrong.mp3'))
+    py.mixer.Channel(2).set_volume(0.1)
     score.sum_unhealth_food()
     VIDAS.decrease()
     if is_game_over():
@@ -372,10 +378,10 @@ def game_customize():#função para a pagina de customização
         clock.tick(30)
 
 def pause_music():
-    py.mixer.music.pause()
+    py.mixer.Channel(0).pause()
 
 def unpause_music():
-    py.mixer.music.unpause()
+    py.mixer.Channel(0).unpause()
 
 
 def game_creditos():#função para créditos
