@@ -489,6 +489,7 @@ def game_loop():#o loop do jogo
     segundos -=clock.tick()#zerando o clock tick para o timer
     timer = 0
     displaytimer = 0
+    py.mixer.Channel(0).play(py.mixer.Sound('Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
 
 
 
@@ -556,6 +557,9 @@ def game_loop():#o loop do jogo
 
         player = render_player(x,y)# chama função para renderizar
 
+        if displaytimer > 20 and displaytimer < 22:
+            py.mixer.Channel(0).play(py.mixer.Sound('Jogo/music/villainMusic.mp3'), maxtime=-1)
+
         if displaytimer > 20:
             villain(villainx, 0)
             villain_food_img = villain_food(villainx, villain_foody)
@@ -609,7 +613,7 @@ def game_loop():#o loop do jogo
                 TextRec.center = ((display_width/2),(display_height/2))
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
-            thing_speed = 16
+            thing_speed = 12
         #Nível 4
         elif displaytimer > 60 and displaytimer < 80:
             if displaytimer > 60 and displaytimer < 62:
@@ -618,7 +622,7 @@ def game_loop():#o loop do jogo
                 TextRec.center = ((display_width/2),(display_height/2))
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
-            thing_speed = 20
+            thing_speed = 16
 
         #Nível 5
         elif displaytimer > 80 and displaytimer < 100:
@@ -628,7 +632,7 @@ def game_loop():#o loop do jogo
                 TextRec.center = ((display_width/2),(display_height/2))
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
-            thing_speed = 25
+            thing_speed = 20
   
         #Nível 6
         elif displaytimer > 100 and displaytimer < 120:
@@ -638,7 +642,7 @@ def game_loop():#o loop do jogo
                 TextRec.center = ((display_width/2),(display_height/2))
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
-            thing_speed = 35
+            thing_speed = 24
 
         if health_food_img.colliderect(player):
             health_food_colision()
