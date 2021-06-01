@@ -5,6 +5,7 @@ import random #importa random para randomizar a queda de objetos no jogo
 import math #importa a biblioteca de matematica para o temporizador no jogo
 import csv #importa arquivo para guardar o ranking
 from score import Score
+from lifes import Lifes
 
 py.init()#Inicia pygame
 display_width = 800 #largura da tela
@@ -13,6 +14,8 @@ screen = py.display.set_mode((display_width,display_height))#Varíavel para arma
 py.display.set_caption("Health or Trash!")#Titulo do jogo
 music = True #Musica ligada
 score = Score(0)
+VIDAS = Lifes(3)
+clock = py.time.Clock()
 #lista de cores
 black = (0,0,0)
 white = (255,255,255)
@@ -58,11 +61,11 @@ villain_foodImg = brigadeiro
 
 #fundos de tela
 ceuintro = py.image.load('Jogo/imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
-ceuranking = py.image.load('Jogo/imagens/backgroundbase.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
+ceuranking = py.image.load('Jogo/imagens/background_ranking.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
 ceuinst = py.image.load('Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de instruções
 ceucustomize = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de customização
 ceujogo = py.image.load('Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de jogo
-ceurank2 = py.image.load('Jogo/imagens/backgroundbase.png')
+ceurank2 = py.image.load('Jogo/imagens/background_ranking.png')
 ceucreditos = py.image.load('Jogo/imagens/backgroundbase.png')
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
@@ -109,17 +112,16 @@ def ranking():
         screen.blit(TextSurf, TextRec)
         disp = 200
         if len(fhand) < 5:
-
             for line in range(0,len(fhand) ,1):
                 largeText = py.font.Font('freesansbold.ttf', 20)
-                TextSurf, TextRec = text_objects(str(fhand[line]), largeText)
+                TextSurf, TextRec = text_objects(f'{line+1}        {str(fhand[line][0])}        {str(fhand[line][1][0:4])}', largeText)
                 TextRec.center = ((display_width/2),disp)
                 screen.blit(TextSurf, TextRec)
                 disp += 30
         else:
             for line in range(0,5,1):
                 largeText = py.font.Font('freesansbold.ttf', 20)
-                TextSurf, TextRec = text_objects(str(fhand[line]), largeText)
+                TextSurf, TextRec = text_objects(f'{line+1}        {str(fhand[line][0])}        {str(fhand[line][1][0:4])}', largeText)
                 TextRec.center = ((display_width/2),disp)
                 screen.blit(TextSurf, TextRec)
                 disp += 30
@@ -138,6 +140,7 @@ def r_ranking():#função para ler o arquivo
   texto = csv.reader(open("Bas.csv","r"))#abre arquivo
 
 def input():#função para chamar a tela onde será colocado o seu nome
+    nome = ''
     scree = py.display.set_mode((800, 600))#outro display com mesmas proporções
     clock = py.time.Clock()#clock de novo para framerate
 
@@ -147,7 +150,7 @@ def input():#função para chamar a tela onde será colocado o seu nome
         screen.blit(ceuranking,(0,0))#carrega imagem de fundo para o ranking
 
         largeText = py.font.Font('freesansbold.ttf', 60)#variavel para fonte de texto
-        TextSurf, TextRec = text_objects("Digite seu nome", largeText)#Duas variaveis sendo definidas pela função text_objects
+        TextSurf, TextRec = text_objects("Digite seu nome:", largeText)#Duas variaveis sendo definidas pela função text_objects
         TextRec.center = ((display_width/2),(display_height/2))#centraliza o texto
         screen.blit(TextSurf, TextRec)#printa o texto na sua posição
         py.display.flip()#atualiza a tela
@@ -159,10 +162,10 @@ def input():#função para chamar a tela onde será colocado o seu nome
 
         # Atualiza o texto na superficie da tela
         scree.blit(textinput.get_surface(), (10, 10))#input de texto com posição
-
+        
         if textinput.update(events):#evento chamado para input do nome
             nome = (textinput.get_text())#pega o input do nome
-            w_ranking(nome, dodge)#chama função para escrever ranking
+            w_ranking(nome, score.total)#chama função para escrever ranking
             r_ranking()#chama função para ler o ranking
 
         for event in events:#um laço for para digitar
@@ -180,8 +183,13 @@ def input():#função para chamar a tela onde será colocado o seu nome
 
 def things_dodge(count):#função para mostrar na tela quantas coisas você desviou
     font = py.font.SysFont(None, 25)#tamanho da fonte ao ser usada
-    text = font.render("Score: " + str(score.total), True, (255,255,255))#texto para ser renderizado com base na variavel count (pontuação), com contorno e de cor preta
+    text = font.render("Pontuação: " + str(score.total), True, (255,255,255))#texto para ser renderizado com base na variavel count (pontuação), com contorno e de cor preta
     screen.blit(text,(0,0))#renderização do texto na tela
+
+def vidas():#função para mostrar na tela quantas coisas você desviou
+    font = py.font.SysFont(None, 25)#tamanho da fonte ao ser usada
+    text = font.render("Vidas: " + str(VIDAS.quantity), True, (255,255,255))#texto para ser renderizado com base na variavel count (pontuação), com contorno e de cor preta
+    screen.blit(text,(0,20))#renderização do texto na tela
 
 def villain_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
     return screen.blit(villain_foodImg,(thingx,thingy))#renderização da agulha com seu x e y
@@ -196,7 +204,7 @@ def render_player(x,y):#função para renderizar o .
     return screen.blit(playerImg,(x,y))#renderização do  com seu x e y
 
 def villain(villainx,villainy):#função para renderizar o .
-    screen.blit(playerImg,(villainx,villainy))#renderização do  com seu x e y
+    screen.blit(villainImg,(villainx,villainy))#renderização do  com seu x e y
 
 def text_objects(text, font):#Definição importante para texto na tela, recebe texto e fonte
     textSurface = font.render(text, True, white)#variavel para receber variavel texto, com contorno verdadeiro e cor preta
@@ -221,13 +229,14 @@ def game_over():#função para mostrar uma mensagem ao chamar a função de mens
     displaytimer -=displaytimer
 
 def is_game_over():
-    return score.total < 0
+    return VIDAS.quantity == 0
 
 def health_food_colision():
     score.sum_health_food()    
 
 def unhealth_food_colision():
     score.sum_unhealth_food()
+    VIDAS.decrease()
     if is_game_over():
         game_over()
 
@@ -310,24 +319,24 @@ def game_instruction():#função para a pagina instrução
 
 #lista de funções para selecionar a cor do 
 def player_black():# preto
-    global player_Img #variavel global em todas as funções para poder mudar a variavel 'playerImg' com a cor desejada
-    player_Img = gordimBlack
-    return player_Img #retorna a variavel base de imagem do 
+    global playerImg #variavel global em todas as funções para poder mudar a variavel 'playerImg' com a cor desejada
+    playerImg = gordimBlack
+    return playerImg #retorna a variavel base de imagem do 
 
 def player_red():# vemelho
-    global player_Img
-    player_Img = gordimGreen
-    return player_Img
+    global playerImg
+    playerImg = gordimGreen
+    return playerImg
 
 def player_green():# verde
-    global player_Img
-    player_Img = gordimPink
-    return player_Img
+    global playerImg
+    playerImg = gordimPink
+    return playerImg
 
 def player_blue():# azul
-    global player_Img
-    player_Img = gordimBlue
-    return player_Img
+    global playerImg
+    playerImg = gordimBlue
+    return playerImg
 
 def game_customize():#função para a pagina de customização
     customize = True
@@ -444,7 +453,9 @@ def game_intro():#função para o menu de introdução
 def game_loop():#o loop do jogo
     
     global dodge #deixando a variavel dodge em global para ser usada em outras funções como ranking
+    score.reset()
     dodge = 0
+    VIDAS.reset(3)
     villainx = (display_width * 0.45)
     villainy = (display_height * 0.15)
     villainDirection = "R"
@@ -463,7 +474,7 @@ def game_loop():#o loop do jogo
     villain_foody = villainy #caindo do começo da tela
     health_foody = -600 #caindo do começo da tela
     unhealth_foody = -600 #caindo do começo da tela
-    thing_speed = 2 #velocidade da agulha
+    thing_speed = 4 #velocidade da agulha
     thing_width = 15 #largura da agulha
     thing_height = 70 #altura da agulha
     timer = 0# Um timer começando do zero
@@ -538,22 +549,24 @@ def game_loop():#o loop do jogo
         villain_foody += thing_speed
 
         player = render_player(x,y)# chama função para renderizar
-        
-        villain(villainx, 0)
-        villain_food_img = villain_food(villainx, villain_foody)
+
+        if displaytimer > 20:
+            villain(villainx, 0)
+            villain_food_img = villain_food(villainx, villain_foody)
         things_dodge(dodge)# função para renderizar pontuação
+        vidas()
 
 
         
 
         #Incremento de tempo
-        segundos = clock.tick()/460.0 # É um numero float. Por isso '.0'
+        segundos = clock.tick()/230.0 # É um numero float. Por isso '.0'
         timer += segundos
         displaytimer = math.trunc(timer)
         
         #Sem chamar uma função para o tempo a renderização é feita dentro do próprio loop de jogo
         fontimer = py.font.SysFont(None,25)#tamanho da fonte do timer
-        textimer = fontimer.render("Timer: " + str(displaytimer), True, black)#texto para ser renderizado com base no tempo
+        textimer = fontimer.render("Timer: " + str(displaytimer), True, (255,255,255))#texto para ser renderizado com base no tempo
         screen.blit(textimer,(700,0))
 
         if x >= display_width - bal_width or x <= 0: #não deixa o balão passar para fora da tela
@@ -573,54 +586,53 @@ def game_loop():#o loop do jogo
 
 
         #Nível 2
-        if dodge > 10 and dodge<12:#caso desvie de 11 objetos chega no nivel 2
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 2!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)#printa na tela que está no nivel dois
-            py.display.flip()
+        if displaytimer > 20 and displaytimer < 40:#caso desvie de 11 objetos chega no nivel 2
+            if displaytimer > 20 and displaytimer < 22:
+                largeText = py.font.Font('freesansbold.ttf', 115)
+                TextSurf, TextRec = text_objects('Nível 2!', largeText)
+                TextRec.center = ((display_width/2),(display_height/2))
+                screen.blit(TextSurf, TextRec)#printa na tela que está no nivel dois
+                py.display.flip()
 
-            #time.sleep(1)
-            thing_speed = 13 #aumenta a velocidade da agulha
-            #E assim por diante
+            thing_speed = 8 #aumenta a velocidade da agulha
         #Nível 3
-        elif dodge > 20 and dodge < 22:
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 3!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)
-            py.display.flip()
+        elif displaytimer > 40 and displaytimer < 60:
+            if displaytimer > 40 and displaytimer < 42:
+                largeText = py.font.Font('freesansbold.ttf', 115)
+                TextSurf, TextRec = text_objects('Nível 3!', largeText)
+                TextRec.center = ((display_width/2),(display_height/2))
+                screen.blit(TextSurf, TextRec)
+                py.display.flip()
             thing_speed = 16
         #Nível 4
-        elif dodge > 30 and dodge < 32:
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 4!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)
-            py.display.flip()
+        elif displaytimer > 60 and displaytimer < 80:
+            if displaytimer > 60 and displaytimer < 62:
+                largeText = py.font.Font('freesansbold.ttf', 115)
+                TextSurf, TextRec = text_objects('Nível 4!', largeText)
+                TextRec.center = ((display_width/2),(display_height/2))
+                screen.blit(TextSurf, TextRec)
+                py.display.flip()
             thing_speed = 20
-            if x >= display_width - bal_width or x <= 0:# a partir do nivel 4 se encostar nas paredes voce perde
-                game_over()
+
         #Nível 5
-        elif dodge > 40 and dodge < 42:
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 5!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)
-            py.display.flip()
+        elif displaytimer > 80 and displaytimer < 100:
+            if displaytimer > 80 and displaytimer < 82:
+                largeText = py.font.Font('freesansbold.ttf', 115)
+                TextSurf, TextRec = text_objects('Nível 5!', largeText)
+                TextRec.center = ((display_width/2),(display_height/2))
+                screen.blit(TextSurf, TextRec)
+                py.display.flip()
             thing_speed = 25
-            if x >= display_width - bal_width or x <= 0:
-                game_over()
+  
         #Nível 6
-        elif dodge > 40 and dodge < 42:
-            largeText = py.font.Font('freesansbold.ttf', 115)
-            TextSurf, TextRec = text_objects('Nível 6!', largeText)
-            TextRec.center = ((display_width/2),(display_height/2))
-            screen.blit(TextSurf, TextRec)
-            py.display.flip()
+        elif displaytimer > 100 and displaytimer < 120:
+            if displaytimer > 100 and displaytimer < 102:
+                largeText = py.font.Font('freesansbold.ttf', 115)
+                TextSurf, TextRec = text_objects('Nível 6!', largeText)
+                TextRec.center = ((display_width/2),(display_height/2))
+                screen.blit(TextSurf, TextRec)
+                py.display.flip()
             thing_speed = 35
-            if x >= display_width - bal_width or x <= 0:
-                game_over()
 
         if health_food_img.colliderect(player):
             health_food_colision()
@@ -632,10 +644,11 @@ def game_loop():#o loop do jogo
             unhealth_foody = 0 - thing_height#reseta a altura
             unhealth_foodx = random.randrange(0, display_width)
         
-        if villain_food_img.colliderect(player):
-            unhealth_food_colision()
-            villain_foody = villainy
-            villain_foodx = villainx
+        if displaytimer > 21:
+            if villain_food_img.colliderect(player):
+                unhealth_food_colision()
+                villain_foody = villainy
+                villain_foodx = villainx
 
         py.display.flip()
         clock.tick(100)
