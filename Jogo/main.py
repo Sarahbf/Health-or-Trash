@@ -1,4 +1,4 @@
-from music import pygame_textinput #importando arquivo para poder fazer o input para o ranking
+from input_helper import pygame_textinput #importando arquivo para poder fazer o input para o ranking
 import pygame as py
 import time #importa tempo para regular a velocidade do jogo
 import random #importa random para randomizar a queda de objetos no jogo
@@ -59,21 +59,21 @@ taco = py.image.load(image_path + "/taco.png")   #importa imagem do taco
 tomate = py.image.load(image_path + "/tomate.png")   #importa imagem do tomate
 gordimBlack = py.image.load(image_path + "/gordimBlack.png")#importa imagem do personagem preto
 gordimGreen = py.image.load(image_path + "/gordimGreen.png")#importa imagem do personagem verde
-gordimBlue = py.image.load(image_path + "gordimBlue.png")#importa imagem do personagem azul
-gordimPink = py.image.load(fimage_path + "/gordimPink.png")#importa imagem do personagem rosa
-villainImg = py.image.load(image_path + "villain.png")#importa imagem do personagem vilão
+gordimBlue = py.image.load(image_path + "/gordimBlue.png")#importa imagem do personagem azul
+gordimPink = py.image.load(image_path + "/gordimPink.png")#importa imagem do personagem rosa
+villainImg = py.image.load(image_path + "/villain.png")#importa imagem do personagem vilão
 health_foods = [brocolis, cenoura, tomate]
 unhealth_foods = [brigadeiro, hamburguer, taco]
 villain_foodImg = brigadeiro
 
 #fundos de tela
-ceuintro = py.image.load(image_path + "backgroundMenu.png")#importa imagem para fundo da introdução/menu do jogo
-ceuranking = py.image.load(image_path + "background_ranking.png")#importa imagem para fundo da tela para input de nome que é a parte do ranking
-ceuinst = py.image.load(image_path + "backgroundbase.png")#importa a imagem para fundo de tela de instruções
-ceucustomize = py.image.load(image_path + "backgroundMenu.png")#importa a imagem para fundo de tela de customização
-ceujogo = py.image.load(image_path + "backgroundbase.png")#importa a imagem para fundo de tela de jogo
-ceurank2 = py.image.load(image_path + "background_ranking.png")
-ceucreditos = py.image.load(image_path + "backgroundbase.png")
+ceuintro = py.image.load(image_path + "/backgroundMenu.png")#importa imagem para fundo da introdução/menu do jogo
+ceuranking = py.image.load(image_path + "/background_ranking.png")#importa imagem para fundo da tela para input de nome que é a parte do ranking
+ceuinst = py.image.load(image_path + "/backgroundbase.png")#importa a imagem para fundo de tela de instruções
+ceucustomize = py.image.load(image_path + "/backgroundMenu.png")#importa a imagem para fundo de tela de customização
+ceujogo = py.image.load(image_path + "/backgroundbase.png")#importa a imagem para fundo de tela de jogo
+ceurank2 = py.image.load(image_path + "/background_ranking.png")
+ceucreditos = py.image.load(image_path + "/backgroundbase.png")
 
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
@@ -236,12 +236,12 @@ def is_game_over():
     return VIDAS.quantity == 0
 
 def health_food_colision():
-    py.mixer.Channel(1).play(py.mixer.Sound(f'{cwd}/Jogo/music/good.mp3'))
+    py.mixer.Channel(1).play(py.mixer.Sound(music_path + "/good.mp3"))
     py.mixer.Channel(1).set_volume(0.1)
     score.sum_health_food()
 
 def unhealth_food_colision():
-    py.mixer.Channel(2).play(py.mixer.Sound(f'{cwd}/Jogo/music/wrong.mp3'))
+    py.mixer.Channel(2).play(py.mixer.Sound(music_path + "/wrong.mp3"))
     py.mixer.Channel(2).set_volume(0.1)
     score.sum_unhealth_food()
     VIDAS.decrease()
@@ -482,7 +482,7 @@ def game_loop():#o loop do jogo
     segundos -=clock.tick()#zerando o clock tick para o timer
     timer = 0
     displaytimer = 0
-    py.mixer.Channel(0).play(py.mixer.Sound(f'{cwd}/Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
+    py.mixer.Channel(0).play(py.mixer.Sound(music_path + "/trilha_top_gear.mp3"), maxtime=-1)
 
     gameExit = False #variavel de loop
     while not gameExit: #enquanto verdadeiro = not False
@@ -505,7 +505,6 @@ def game_loop():#o loop do jogo
                 elif event.key == py.K_UP:#para subir
                     if y-player_height < 0:
                         y_change = 0
-                        game_over()
                     else:
                         y_change = -1
                         #y é decrescido para o personagem subir
@@ -513,7 +512,6 @@ def game_loop():#o loop do jogo
                 elif event.key == py.K_DOWN:#para descer
                     if y +player_height > display_height:
                         y_change = 0
-                        game_over()
                     y_change = 2
                     
             if event.type == py.KEYUP:#caso a tecla seja deixado de ser pressionado
@@ -549,7 +547,7 @@ def game_loop():#o loop do jogo
         player = render_player(x,y)# chama função para renderizar
 
         if displaytimer > 20 and displaytimer < 22:
-            py.mixer.Channel(0).play(py.mixer.Sound(f'{cwd}/Jogo/music/villainMusic.mp3'), maxtime=-1)
+            py.mixer.Channel(0).play(py.mixer.Sound(music_path + "/villainMusic.mp3"), maxtime=-1)
 
         if displaytimer > 20:
             villain(villainx, 0)
