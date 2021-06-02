@@ -188,14 +188,14 @@ def vidas():#função para mostrar na tela quantas comidas desviou
     text = font.render("Vidas: " + str(VIDAS.quantity), True, (255,255,255))#texto para ser renderizado com base na variavel count (pontuação), com contorno e de cor preta
     screen.blit(text,(0,20))#renderização do texto na tela
 
-def villain_food(thingx, thingy):#função para renderizar a comida do vilao
-    return screen.blit(villain_foodImg,(thingx,thingy))#renderização do vilao com seu x e y
+def villain_food(image, thingx, thingy):#função para renderizar a comida do vilao
+    return screen.blit(image,(thingx,thingy))#renderização do vilao com seu x e y
 
-def health_food(thingx, thingy):#função para renderizar a comida saudavel
-    return screen.blit(brocolis,(thingx,thingy))#renderização da comida saudavel com seu x e y
+def health_food(image, thingx, thingy):#função para renderizar a comida saudavel
+    return screen.blit(image,(thingx,thingy))#renderização da comida saudavel com seu x e y
 
-def unhealth_food(thingx, thingy):#função para renderizar a comida não saudavel
-    return screen.blit(hamburguer,(thingx,thingy))#renderização da comida não saudavel com seu x e y
+def unhealth_food(image, thingx, thingy):#função para renderizar a comida não saudavel
+    return screen.blit(image,(thingx,thingy))#renderização da comida não saudavel com seu x e y
 
 def render_player(x,y):#função para renderizar o personagem.
     return screen.blit(playerImg,(x,y))#renderização do personagem com seu x e y
@@ -453,6 +453,9 @@ def game_loop():#o loop do jogo
     villainDirection = "R"
     x = (display_width * 0.45)#posição inicial
     y = (display_height * 0.85)
+    HEALTH_FOOD_RANDOMLY_CHOOSED = brocolis
+    UNHEALTH_FOOD_RANDOMLY_CHOOSED = hamburguer
+    VILLAIN_FOOD_RANDOMLY_CHOOSED = brigadeiro
 
     #variaveis
     x_change = 0 #mudança de x do personagem
@@ -531,8 +534,8 @@ def game_loop():#o loop do jogo
         screen.fill((white))
         screen.blit(ceujogo,(0,0))
 
-        health_food_img = health_food(health_foodx, health_foody)#chama função para renderizar
-        unhealth_food_img =unhealth_food(unhealth_foodx, unhealth_foody)
+        health_food_img = health_food(HEALTH_FOOD_RANDOMLY_CHOOSED, health_foodx, health_foody)#chama função para renderizar
+        unhealth_food_img =unhealth_food(UNHEALTH_FOOD_RANDOMLY_CHOOSED, unhealth_foodx, unhealth_foody)
         health_foody += thing_speed #soma a velocidade a cada loop e desvio de comida
         unhealth_foody += thing_speed
         villain_foody += thing_speed
@@ -544,7 +547,7 @@ def game_loop():#o loop do jogo
 
         if displaytimer > 20:
             villain(villainx, 0)
-            villain_food_img = villain_food(villainx, villain_foody)
+            villain_food_img = villain_food(VILLAIN_FOOD_RANDOMLY_CHOOSED, villainx, villain_foody)
         things_dodge(dodge)# função para renderizar pontuação
         vidas()
 
@@ -562,14 +565,17 @@ def game_loop():#o loop do jogo
             x_change = 0#
 
         if villain_foody > display_height:#caso a comida do vilao chegue no final da tela
+            VILLAIN_FOOD_RANDOMLY_CHOOSED = random.choice(unhealth_foods)
             villain_foody = 0 - thing_height#reseta a altura da comida
             villain_foodx = random.randrange(0, display_width)#reseta posição da comida em uma posição randomica diferente
 
         if health_foody > display_height:#caso a comida saudavel chegue no final da tela
+            HEALTH_FOOD_RANDOMLY_CHOOSED = random.choice(health_foods)
             health_foody = 0 - thing_height#reseta a altura da comida
             health_foodx = random.randrange(0, display_width)#reseta posição da comida em uma posição randomica diferente
         
         if unhealth_foody > display_height:#caso a comida não saudavel chegue no final da tela
+            UNHEALTH_FOOD_RANDOMLY_CHOOSED = random.choice(unhealth_foods)
             unhealth_foody = 0 - thing_height#reseta a altura da comida
             unhealth_foodx = random.randrange(0, display_width)#reseta posição da comida em uma posição randomica diferente
 
@@ -582,7 +588,7 @@ def game_loop():#o loop do jogo
                 screen.blit(TextSurf, TextRec)#printa na tela que está no nivel dois
                 py.display.flip()
 
-            thing_speed = 8 #aumenta a velocidade da comida
+            thing_speed =7 #aumenta a velocidade da comida
             
         #Nível 3
         elif displaytimer > 40 and displaytimer < 60:
@@ -592,7 +598,7 @@ def game_loop():#o loop do jogo
                 TextRec.center = ((display_width/2),(display_height/2))
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
-            thing_speed = 12
+            thing_speed = 9
             
         #Nível 4
         elif displaytimer > 60 and displaytimer < 80:
@@ -602,7 +608,7 @@ def game_loop():#o loop do jogo
                 TextRec.center = ((display_width/2),(display_height/2))
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
-            thing_speed = 16
+            thing_speed = 11
 
         #Nível 5
         elif displaytimer > 80 and displaytimer < 100:
@@ -612,7 +618,7 @@ def game_loop():#o loop do jogo
                 TextRec.center = ((display_width/2),(display_height/2))
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
-            thing_speed = 20
+            thing_speed = 13
   
         #Nível 6
         elif displaytimer > 100 and displaytimer < 120:
@@ -622,22 +628,25 @@ def game_loop():#o loop do jogo
                 TextRec.center = ((display_width/2),(display_height/2))
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
-            thing_speed = 24
+            thing_speed = 16
 
         if health_food_img.colliderect(player):
             health_food_colision()
             health_foody = 0 - thing_height#reseta a altura
+            HEALTH_FOOD_RANDOMLY_CHOOSED = random.choice(health_foods)
             health_foodx = random.randrange(0, display_width)
         
         if unhealth_food_img.colliderect(player):
             unhealth_food_colision()
             unhealth_foody = 0 - thing_height#reseta a altura
+            UNHEALTH_FOOD_RANDOMLY_CHOOSED = random.choice(unhealth_foods)
             unhealth_foodx = random.randrange(0, display_width)
         
         if displaytimer > 21:
             if villain_food_img.colliderect(player):
                 unhealth_food_colision()
                 villain_foody = villainy
+                VILLAIN_FOOD_RANDOMLY_CHOOSED = random.choice(unhealth_foods)
                 villain_foodx = villainx
 
         py.display.flip()
