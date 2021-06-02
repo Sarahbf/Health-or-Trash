@@ -5,6 +5,7 @@ import random #importa random para randomizar a queda de objetos no jogo
 import math #importa a biblioteca de matematica para o temporizador no jogo
 import csv #importa arquivo para guardar o ranking
 import os, sys
+import platform
 from score import Score
 from lifes import Lifes
 
@@ -47,34 +48,37 @@ villain_width = 75
 
 clock = py.time.Clock()  #Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
 
-brigadeiro = py.image.load(f'{cwd}/Jogo/imagens/brigadeiro.png')#importa imagem do brigadeiro
-brocolis = py.image.load(f'{cwd}/Jogo/imagens/brocolis.png') #importa imagem do brocolis
-cenoura = py.image.load(f'{cwd}/Jogo/imagens/cenoura.png')   #importa imagem da cenoura
-hamburguer = py.image.load(f'{cwd}/Jogo/imagens/hamburguer.png') #importa imagem do hamburguer
-taco = py.image.load(f'{cwd}/Jogo/imagens/taco.png')   #importa imagem do taco
-tomate = py.image.load(f'{cwd}/Jogo/imagens/tomate.png')   #importa imagem do tomate
-gordimBlack = py.image.load(f'{cwd}/Jogo/imagens/gordimBlack.png')#importa imagem do personagem preto
-gordimGreen = py.image.load(f'{cwd}/Jogo/imagens/gordimGreen.png')#importa imagem do personagem verde
-gordimBlue = py.image.load(f'{cwd}/Jogo/imagens/gordimBlue.png')#importa imagem do personagem azul
-gordimPink = py.image.load(f'{cwd}/Jogo/imagens/gordimPink.png')#importa imagem do personagem rosa
-villainImg = py.image.load(f'{cwd}/Jogo/imagens/villain.png')#importa imagem do personagem vilão
+image_path = "imagens" if(platform.system() == 'Windows') else 'Jogo/imagens'
+music_path = "music" if(platform.system() == 'Windows') else 'Jogo/music'
+
+brigadeiro = py.image.load(image_path + "/brigadeiro.png")#importa imagem do brigadeiro
+brocolis = py.image.load(image_path + "/brocolis.png") #importa imagem do brocolis
+cenoura = py.image.load(image_path + "/cenoura.png")   #importa imagem da cenoura
+hamburguer = py.image.load(image_path + "/hamburguer.png") #importa imagem do hamburguer
+taco = py.image.load(image_path + "/taco.png")   #importa imagem do taco
+tomate = py.image.load(image_path + "/tomate.png")   #importa imagem do tomate
+gordimBlack = py.image.load(image_path + "/gordimBlack.png")#importa imagem do personagem preto
+gordimGreen = py.image.load(image_path + "/gordimGreen.png")#importa imagem do personagem verde
+gordimBlue = py.image.load(image_path + "gordimBlue.png")#importa imagem do personagem azul
+gordimPink = py.image.load(fimage_path + "/gordimPink.png")#importa imagem do personagem rosa
+villainImg = py.image.load(image_path + "villain.png")#importa imagem do personagem vilão
 health_foods = [brocolis, cenoura, tomate]
 unhealth_foods = [brigadeiro, hamburguer, taco]
 villain_foodImg = brigadeiro
 
 #fundos de tela
-ceuintro = py.image.load(f'{cwd}/Jogo/imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
-ceuranking = py.image.load(f'{cwd}/Jogo/imagens/background_ranking.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
-ceuinst = py.image.load(f'{cwd}/Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de instruções
-ceucustomize = py.image.load(f'{cwd}/Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de customização
-ceujogo = py.image.load(f'{cwd}/Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de jogo
-ceurank2 = py.image.load(f'{cwd}/Jogo/imagens/background_ranking.png')
-ceucreditos = py.image.load(f'{cwd}/Jogo/imagens/backgroundbase.png')
+ceuintro = py.image.load(image_path + "backgroundMenu.png")#importa imagem para fundo da introdução/menu do jogo
+ceuranking = py.image.load(image_path + "background_ranking.png")#importa imagem para fundo da tela para input de nome que é a parte do ranking
+ceuinst = py.image.load(image_path + "backgroundbase.png")#importa a imagem para fundo de tela de instruções
+ceucustomize = py.image.load(image_path + "backgroundMenu.png")#importa a imagem para fundo de tela de customização
+ceujogo = py.image.load(image_path + "backgroundbase.png")#importa a imagem para fundo de tela de jogo
+ceurank2 = py.image.load(image_path + "background_ranking.png")
+ceucreditos = py.image.load(image_path + "backgroundbase.png")
 
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
 py.mixer.init() #inicia a função para música do jogo
-py.mixer.Channel(0).play(py.mixer.Sound(f'{cwd}/Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
+py.mixer.Channel(0).play(py.mixer.Sound(music_path + "/trilha_top_gear.mp3"), maxtime=-1)
 py.mixer.Channel(0).set_volume(0.03)
 
 #movimento do gif  em menus
