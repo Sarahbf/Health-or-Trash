@@ -4,6 +4,7 @@ import time #importa tempo para regular a velocidade do jogo
 import random #importa random para randomizar a queda de objetos no jogo
 import math #importa a biblioteca de matematica para o temporizador no jogo
 import csv #importa arquivo para guardar o ranking
+import os, sys
 from score import Score
 from lifes import Lifes
 
@@ -16,6 +17,7 @@ music = True #Musica ligada
 score = Score(0)
 VIDAS = Lifes(3)
 clock = py.time.Clock()
+cwd = os.getcwd()
 
 #lista de cores
 black = (0,0,0)
@@ -38,41 +40,41 @@ bright_purple = (255,0,255)
 bright_gray = (192,192,192)
 
 #Medidas 
-bal_height = 80
-bal_width = 65
+player_height = 80
+player_width = 65
 villain_height = 111
 villain_width = 75
 
 clock = py.time.Clock()  #Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
 
-brigadeiro = py.image.load('Jogo/imagens/brigadeiro.png')#importa imagem do brigadeiro
-brocolis = py.image.load('Jogo/imagens/brocolis.png') #importa imagem do brocolis
-cenoura = py.image.load('Jogo/imagens/cenoura.png')   #importa imagem da cenoura
-hamburguer = py.image.load('Jogo/imagens/hamburguer.png') #importa imagem do hamburguer
-taco = py.image.load('Jogo/imagens/taco.png')   #importa imagem do taco
-tomate = py.image.load('Jogo/imagens/tomate.png')   #importa imagem do tomate
-gordimBlack = py.image.load('Jogo/imagens/gordimBlack.png')#importa imagem do personagem preto
-gordimGreen = py.image.load('Jogo/imagens/gordimGreen.png')#importa imagem do personagem verde
-gordimBlue = py.image.load('Jogo/imagens/gordimBlue.png')#importa imagem do personagem azul
-gordimPink = py.image.load('Jogo/imagens/gordimPink.png')#importa imagem do personagem rosa
-villainImg = py.image.load('Jogo/imagens/villain.png')#importa imagem do personagem vilão
+brigadeiro = py.image.load(f'{cwd}/Jogo/imagens/brigadeiro.png')#importa imagem do brigadeiro
+brocolis = py.image.load(f'{cwd}/Jogo/imagens/brocolis.png') #importa imagem do brocolis
+cenoura = py.image.load(f'{cwd}/Jogo/imagens/cenoura.png')   #importa imagem da cenoura
+hamburguer = py.image.load(f'{cwd}/Jogo/imagens/hamburguer.png') #importa imagem do hamburguer
+taco = py.image.load(f'{cwd}/Jogo/imagens/taco.png')   #importa imagem do taco
+tomate = py.image.load(f'{cwd}/Jogo/imagens/tomate.png')   #importa imagem do tomate
+gordimBlack = py.image.load(f'{cwd}/Jogo/imagens/gordimBlack.png')#importa imagem do personagem preto
+gordimGreen = py.image.load(f'{cwd}/Jogo/imagens/gordimGreen.png')#importa imagem do personagem verde
+gordimBlue = py.image.load(f'{cwd}/Jogo/imagens/gordimBlue.png')#importa imagem do personagem azul
+gordimPink = py.image.load(f'{cwd}/Jogo/imagens/gordimPink.png')#importa imagem do personagem rosa
+villainImg = py.image.load(f'{cwd}/Jogo/imagens/villain.png')#importa imagem do personagem vilão
 health_foods = [brocolis, cenoura, tomate]
 unhealth_foods = [brigadeiro, hamburguer, taco]
 villain_foodImg = brigadeiro
 
 #fundos de tela
-ceuintro = py.image.load('Jogo/imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
-ceuranking = py.image.load('Jogo/imagens/background_ranking.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
-ceuinst = py.image.load('Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de instruções
-ceucustomize = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de customização
-ceujogo = py.image.load('Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de jogo
-ceurank2 = py.image.load('Jogo/imagens/background_ranking.png')
-ceucreditos = py.image.load('Jogo/imagens/backgroundbase.png')
+ceuintro = py.image.load(f'{cwd}/Jogo/imagens/backgroundMenu.png')#importa imagem para fundo da introdução/menu do jogo
+ceuranking = py.image.load(f'{cwd}/Jogo/imagens/background_ranking.png')#importa imagem para fundo da tela para input de nome que é a parte do ranking
+ceuinst = py.image.load(f'{cwd}/Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de instruções
+ceucustomize = py.image.load(f'{cwd}/Jogo/imagens/backgroundMenu.png')#importa a imagem para fundo de tela de customização
+ceujogo = py.image.load(f'{cwd}/Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de jogo
+ceurank2 = py.image.load(f'{cwd}/Jogo/imagens/background_ranking.png')
+ceucreditos = py.image.load(f'{cwd}/Jogo/imagens/backgroundbase.png')
 
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
 py.mixer.init() #inicia a função para música do jogo
-py.mixer.Channel(0).play(py.mixer.Sound('Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
+py.mixer.Channel(0).play(py.mixer.Sound(f'{cwd}/Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
 py.mixer.Channel(0).set_volume(0.03)
 
 #movimento do gif  em menus
@@ -80,7 +82,7 @@ playerImg = gordimBlack#varíavel para carregar uma imagem padrão de personagem
 textinput = pygame_textinput.TextInput()#variavel para texto
 
 def is_on_screen_limit():
-    return x >= display_width - bal_width or x <= 0
+    return x >= display_width - player_width or x <= 0
 
 def ranking():
 
@@ -218,7 +220,7 @@ def message_display(text):#função de mensagem que recebe texto
     nome = input()#chama o input
 
 def game_over():#função para mostrar uma mensagem ao chamar a função de mensagem
-    py.mixer.Channel(3).play(py.mixer.Sound('Jogo/music/gameover.mp3'))
+    py.mixer.Channel(3).play(py.mixer.Sound(f'{cwd}/Jogo/music/gameover.mp3'))
     py.mixer.Channel(3).set_volume(0.1)
     message_display("Game Over!")#texto dentro da função de mensagem para ser definido como a variavel text
     score.reset()
@@ -230,12 +232,12 @@ def is_game_over():
     return VIDAS.quantity == 0
 
 def health_food_colision():
-    py.mixer.Channel(1).play(py.mixer.Sound('Jogo/music/good.mp3'))
+    py.mixer.Channel(1).play(py.mixer.Sound(f'{cwd}/Jogo/music/good.mp3'))
     py.mixer.Channel(1).set_volume(0.1)
     score.sum_health_food()
 
 def unhealth_food_colision():
-    py.mixer.Channel(2).play(py.mixer.Sound('Jogo/music/wrong.mp3'))
+    py.mixer.Channel(2).play(py.mixer.Sound(f'{cwd}/Jogo/music/wrong.mp3'))
     py.mixer.Channel(2).set_volume(0.1)
     score.sum_unhealth_food()
     VIDAS.decrease()
@@ -476,7 +478,7 @@ def game_loop():#o loop do jogo
     segundos -=clock.tick()#zerando o clock tick para o timer
     timer = 0
     displaytimer = 0
-    py.mixer.Channel(0).play(py.mixer.Sound('Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
+    py.mixer.Channel(0).play(py.mixer.Sound(f'{cwd}/Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
 
     gameExit = False #variavel de loop
     while not gameExit: #enquanto verdadeiro = not False
@@ -492,12 +494,12 @@ def game_loop():#o loop do jogo
                     else:
                         x_change = -8 #se não continua movendo para a esquerda
                 elif event.key == py.K_RIGHT:#para a direita
-                    if x >= display_width - bal_width:#se chegar no limite da tela
+                    if x >= display_width - player_width:#se chegar no limite da tela
                         x_change = 0#ele para de se mover
                     else:
                         x_change = 8#continua movendo para a direita
                 elif event.key == py.K_UP:#para subir
-                    if y-bal_height < 0:
+                    if y-player_height < 0:
                         y_change = 0
                         game_over()
                     else:
@@ -505,7 +507,7 @@ def game_loop():#o loop do jogo
                         #y é decrescido para o personagem subir
                         
                 elif event.key == py.K_DOWN:#para descer
-                    if y +bal_height > display_height:
+                    if y +player_height > display_height:
                         y_change = 0
                         game_over()
                     y_change = 2
@@ -543,7 +545,7 @@ def game_loop():#o loop do jogo
         player = render_player(x,y)# chama função para renderizar
 
         if displaytimer > 20 and displaytimer < 22:
-            py.mixer.Channel(0).play(py.mixer.Sound('Jogo/music/villainMusic.mp3'), maxtime=-1)
+            py.mixer.Channel(0).play(py.mixer.Sound(f'{cwd}/Jogo/music/villainMusic.mp3'), maxtime=-1)
 
         if displaytimer > 20:
             villain(villainx, 0)
@@ -561,7 +563,7 @@ def game_loop():#o loop do jogo
         textimer = fontimer.render("Timer: " + str(displaytimer), True, (255,255,255))#texto para ser renderizado com base no tempo
         screen.blit(textimer,(700,0))
 
-        if x >= display_width - bal_width or x <= 0: #não deixa o personagem passar para fora da tela
+        if x >= display_width - player_width or x <= 0: #não deixa o personagem passar para fora da tela
             x_change = 0#
 
         if villain_foody > display_height:#caso a comida do vilao chegue no final da tela
