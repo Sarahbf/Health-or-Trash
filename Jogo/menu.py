@@ -16,6 +16,7 @@ music = True #Musica ligada
 score = Score(0)
 VIDAS = Lifes(3)
 clock = py.time.Clock()
+
 #lista de cores
 black = (0,0,0)
 white = (255,255,255)
@@ -26,7 +27,8 @@ purple = (139,0,139)
 gray = (128,128,128)
 rosa = (255,192,203)
 green = (0,200,0)
-#cores claras para efeitos de botões
+
+#cores claras para efeitos 
 bright_red = (255,0,0)
 bright_green = (0,255,0)
 bright_blue= (0,255,255)
@@ -34,27 +36,26 @@ bright_rosa= (255,28,174)
 bright_yellow = (255,255,0)
 bright_purple = (255,0,255)
 bright_gray = (192,192,192)
-#Medida do 
+
+#Medidas 
 bal_height = 80
 bal_width = 65
-
 villain_height = 111
 villain_width = 75
 
-clock = py.time.Clock()#Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
-#Desktop - Trabalho - Abrindo em pen drive
+clock = py.time.Clock()  #Varíavel para armazenar a função de tempo do pygame e para framerate do jogo
+
 brigadeiro = py.image.load('Jogo/imagens/brigadeiro.png')#importa imagem do brigadeiro
-brocolis = py.image.load('Jogo/imagens/brocolis.png')#importa imagem do brocolis
-cenoura = py.image.load('Jogo/imagens/cenoura.png')#importa imagem da cenoura
-hamburguer = py.image.load('Jogo/imagens/hamburguer.png')#importa imagem do hamburguer
-taco = py.image.load('Jogo/imagens/taco.png')#importa imagem do taco
-tomate = py.image.load('Jogo/imagens/tomate.png')#importa imagem do tomate
-Agulha = py.image.load('Jogo/imagens/Agulha.png')#importa imagem da agulha
+brocolis = py.image.load('Jogo/imagens/brocolis.png') #importa imagem do brocolis
+cenoura = py.image.load('Jogo/imagens/cenoura.png')   #importa imagem da cenoura
+hamburguer = py.image.load('Jogo/imagens/hamburguer.png') #importa imagem do hamburguer
+taco = py.image.load('Jogo/imagens/taco.png')   #importa imagem do taco
+tomate = py.image.load('Jogo/imagens/tomate.png')   #importa imagem do tomate
 gordimBlack = py.image.load('Jogo/imagens/gordimBlack.png')#importa imagem do personagem preto
-gordimGreen = py.image.load('Jogo/imagens/gordimGreen.png')#importa imagem do personagem vermelho
+gordimGreen = py.image.load('Jogo/imagens/gordimGreen.png')#importa imagem do personagem verde
 gordimBlue = py.image.load('Jogo/imagens/gordimBlue.png')#importa imagem do personagem azul
-gordimPink = py.image.load('Jogo/imagens/gordimPink.png')#importa imagem do personagem verde
-villainImg = py.image.load('Jogo/imagens/villain.png')#importa imagem do personagem verde
+gordimPink = py.image.load('Jogo/imagens/gordimPink.png')#importa imagem do personagem rosa
+villainImg = py.image.load('Jogo/imagens/villain.png')#importa imagem do personagem vilão
 health_foods = [brocolis, cenoura, tomate]
 unhealth_foods = [brigadeiro, hamburguer, taco]
 villain_foodImg = brigadeiro
@@ -67,6 +68,7 @@ ceucustomize = py.image.load('Jogo/imagens/backgroundMenu.png')#importa a imagem
 ceujogo = py.image.load('Jogo/imagens/backgroundbase.png')#importa a imagem para fundo de tela de jogo
 ceurank2 = py.image.load('Jogo/imagens/background_ranking.png')
 ceucreditos = py.image.load('Jogo/imagens/backgroundbase.png')
+
 #sons musicais
 dodge = 0 #varíavel para contar quantos objetos desviados
 py.mixer.init() #inicia a função para música do jogo
@@ -74,9 +76,7 @@ py.mixer.Channel(0).play(py.mixer.Sound('Jogo/music/trilha_top_gear.mp3'), maxti
 py.mixer.Channel(0).set_volume(0.03)
 
 #movimento do gif  em menus
-balcont = 1#varíavel para contar a mudança de frames
 playerImg = gordimBlack#varíavel para carregar uma imagem padrão de personagem preto
-#Input
 textinput = pygame_textinput.TextInput()#variavel para texto
 
 def is_on_screen_limit():
@@ -91,14 +91,11 @@ def ranking():
         fhand.append(i)
     for num in fhand:
         num[0] = int(num[0])
-
-        #print(num)
     fhand.sort(reverse = True)
 
     ranking = True
     while ranking:
         for event in py.event.get():
-            #print(event)
             if event.type == py.QUIT:
                 py.quit()
                 quit()
@@ -161,17 +158,17 @@ def input():#função para chamar a tela onde será colocado o seu nome
                 exit()
 
         # Atualiza o texto na superficie da tela
-        scree.blit(textinput.get_surface(), (10, 10))#input de texto com posição
+        scree.blit(textinput.get_surface(), (10, 10))#input de texto com
         
         if textinput.update(events):#evento chamado para input do nome
             nome = (textinput.get_text())#pega o input do nome
             w_ranking(nome, score.total)#chama função para escrever ranking
             r_ranking()#chama função para ler o ranking
 
-        for event in events:#um laço for para digitar
+        for event in events:#um laço para digitar
             if event.type == py.KEYDOWN:#caso uma tecla seja pressionada para escrever o nome
                 if event.key == py.K_RETURN:#depois de escrever o nome
-                    continue#ranking()#chama a funçao de Ranking
+                    continue#chama a funçao de Ranking
             if event.type == py.KEYUP:#caso uma tecla seja pressionada para escrever o nome
                 if event.key == py.K_RETURN:
                     ranking()
@@ -179,32 +176,32 @@ def input():#função para chamar a tela onde será colocado o seu nome
         py.display.update()#da update na tela para escrever o nome
         clock.tick(30)#frames da tela de ranking
 
-    #return nome#retorna a variavel nome armazenada para o ranking
+    #return nome retorna a variavel nome armazenada para o ranking
 
-def things_dodge(count):#função para mostrar na tela quantas coisas você desviou
+def things_dodge(count):#função para mostrar na tela quantas comidas desviou
     font = py.font.SysFont(None, 25)#tamanho da fonte ao ser usada
     text = font.render("Pontuação: " + str(score.total), True, (255,255,255))#texto para ser renderizado com base na variavel count (pontuação), com contorno e de cor preta
     screen.blit(text,(0,0))#renderização do texto na tela
 
-def vidas():#função para mostrar na tela quantas coisas você desviou
+def vidas():#função para mostrar na tela quantas comidas desviou
     font = py.font.SysFont(None, 25)#tamanho da fonte ao ser usada
     text = font.render("Vidas: " + str(VIDAS.quantity), True, (255,255,255))#texto para ser renderizado com base na variavel count (pontuação), com contorno e de cor preta
     screen.blit(text,(0,20))#renderização do texto na tela
 
-def villain_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
-    return screen.blit(villain_foodImg,(thingx,thingy))#renderização da agulha com seu x e y
+def villain_food(thingx, thingy):#função para renderizar a comida do vilao
+    return screen.blit(villain_foodImg,(thingx,thingy))#renderização do vilao com seu x e y
 
-def health_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
-    return screen.blit(brocolis,(thingx,thingy))#renderização da agulha com seu x e y
+def health_food(thingx, thingy):#função para renderizar a comida saudavel
+    return screen.blit(brocolis,(thingx,thingy))#renderização da comida saudavel com seu x e y
 
-def unhealth_food(thingx, thingy):#função para renderizar a agulha. Chamamos a agulha de 'thing' no código
-    return screen.blit(hamburguer,(thingx,thingy))#renderização da agulha com seu x e y
+def unhealth_food(thingx, thingy):#função para renderizar a comida não saudavel
+    return screen.blit(hamburguer,(thingx,thingy))#renderização da comida não saudavel com seu x e y
 
-def render_player(x,y):#função para renderizar o .
-    return screen.blit(playerImg,(x,y))#renderização do  com seu x e y
+def render_player(x,y):#função para renderizar o personagem.
+    return screen.blit(playerImg,(x,y))#renderização do personagem com seu x e y
 
-def villain(villainx,villainy):#função para renderizar o .
-    screen.blit(villainImg,(villainx,villainy))#renderização do  com seu x e y
+def villain(villainx,villainy):#função para renderizar o vilão
+    screen.blit(villainImg,(villainx,villainy))#renderização do vilão com seu x e y
 
 def text_objects(text, font):#Definição importante para texto na tela, recebe texto e fonte
     textSurface = font.render(text, True, white)#variavel para receber variavel texto, com contorno verdadeiro e cor preta
@@ -218,7 +215,6 @@ def message_display(text):#função de mensagem que recebe texto
     py.display.flip()#atualiza a tela
 
     time.sleep(2)#depois de 2 segundos chama o input de nome para ranking
-
     nome = input()#chama o input
 
 def game_over():#função para mostrar uma mensagem ao chamar a função de mensagem
@@ -259,12 +255,6 @@ def button(msg, x, y, w, h, ic, ac, action = None):#ic é caso o mouse não este
         if click[0] == 1 and action != None:# e for clicado com o botão esquerdo
             action()#chama a ação que será uma função dentro da variavel botão
 
-#            if action == "Play":
-#                game_loop()
-#            elif action == "quit":
-#                py.quit()
-#                quit()
-#            print("Ok")
     else:# se o mouse não estiver em cima
         py.draw.rect(screen, ic,(x,y,w,h))#botão desenhado se o mouse não estiver em cima usando a variavel 'ic'
 
@@ -287,6 +277,7 @@ def game_instruction():#função para a pagina instrução
         Text = py.font.SysFont('freesansbold.ttf',100)#texto maior
         Stext = py.font.SysFont('freesansbold.ttf',40)#texto menor
         TextSurf, TextRec = text_objects("Instruções",Text)#Texto maior para instruções
+        
         #criação de varias variaveis para pular a linha
         TextSurf1, TextRec1 = text_objects("Use as setas esquerda e direita para desviar" ,Stext)
         TextSurf2, TextRec2 = text_objects("das comidas ruins que vão cair randômicamente",Stext)
@@ -313,7 +304,6 @@ def game_instruction():#função para a pagina instrução
         screen.blit(TextSurf5, TextRec5)
         screen.blit(TextSurf6, TextRec6)
 
-
         #função de botões sendo usada
         button("Play",650,500,100,50, green, bright_green, game_loop)#primeiros dois valores são referentes a posição
         button("Back",50,500,100,50,purple,bright_purple,game_intro)#os segundos são o tamanho do botão
@@ -323,18 +313,18 @@ def game_instruction():#função para a pagina instrução
         py.display.flip()#atualização da tela
         clock.tick(30)#frames da tela
 
-#lista de funções para selecionar a cor do 
+#lista de funções para selecionar a cor do personagem
 def player_black():# preto
     global playerImg #variavel global em todas as funções para poder mudar a variavel 'playerImg' com a cor desejada
     playerImg = gordimBlack
-    return playerImg #retorna a variavel base de imagem do 
+    return playerImg #retorna a variavel base de imagem do personagem
 
-def player_red():# vemelho
+def player_green():# verde
     global playerImg
     playerImg = gordimGreen
     return playerImg
 
-def player_green():# verde
+def player_rosa():# rosa
     global playerImg
     playerImg = gordimPink
     return playerImg
@@ -366,10 +356,11 @@ def game_customize():#função para a pagina de customização
         screen.blit(gordimGreen,(290,300))
         screen.blit(gordimBlue,(470,300))
         screen.blit(gordimPink,(615,300))
-        button("Cor preta",100,400,100,50, gray, bright_gray,player_black)# botões que chamam a função para definir o  com cor preta,vermelha,azul e verde
-        button("Cor verde",250,400,150,50, green, bright_green,player_red)#
-        button("Cor azul",450,400,100,50, blue, bright_blue,player_blue)#
-        button("Cor rosa",600,400,100,50, rosa, bright_rosa,player_green)#
+        #botões para definir o personagem com cor preta, verde, azul e rosa
+        button("Cor preta",100,400,100,50, gray, bright_gray,player_black)
+        button("Cor verde",250,400,150,50, green, bright_green,player_green)
+        button("Cor azul",450,400,100,50, blue, bright_blue,player_blue)
+        button("Cor rosa",600,400,100,50, rosa, bright_rosa,player_rosa)
         
         button("Play",650,500,100,50, green, bright_green, game_loop)#botões para jogar e voltar na tela de introdução
         button("Back",50,500,100,50,purple,bright_purple,game_intro)
@@ -382,7 +373,6 @@ def pause_music():
 
 def unpause_music():
     py.mixer.Channel(0).unpause()
-
 
 def game_creditos():#função para créditos
     creditos = True
@@ -430,12 +420,9 @@ def quitgame():#função para sair do jogo normalmente chamada em botões
     quit()
 
 def game_intro():#função para o menu de introdução
-
-    balcont = 1#variavel para fazer a animação do gif
     intro = True
     while intro:
         for event in py.event.get():
-            #print(event)
             if event.type == py.QUIT:
                 py.quit()
                 quit()
@@ -457,7 +444,6 @@ def game_intro():#função para o menu de introdução
         clock.tick(30)
 
 def game_loop():#o loop do jogo
-    
     global dodge #deixando a variavel dodge em global para ser usada em outras funções como ranking
     score.reset()
     dodge = 0
@@ -465,14 +451,12 @@ def game_loop():#o loop do jogo
     villainx = (display_width * 0.45)
     villainy = (display_height * 0.15)
     villainDirection = "R"
-    x = (display_width * 0.45)# posição inicial do balão
+    x = (display_width * 0.45)#posição inicial
     y = (display_height * 0.85)
 
-
     #variaveis
-    x_change = 0 #mudança de x do balão
-    y_change = 0 #mudança de y do balão
-    bal_speed = 0 #velocidade do balão
+    x_change = 0 #mudança de x do personagem
+    y_change = 0 #mudança de y do personagem
     villain_foodx = random.randrange(0, display_width)#posição x randomicamente, em um raio de 0 e indo até o valor total de largura da tela
     health_foodx = random.randrange(0, display_width)#posição x randomicamente, em um raio de 0 e indo até o valor total de largura da tela
     unhealth_foodx = random.randrange(0, display_width)#posição x randomicamente, em um raio de 0 e indo até o valor total de largura da tela
@@ -480,9 +464,9 @@ def game_loop():#o loop do jogo
     villain_foody = villainy #caindo do começo da tela
     health_foody = -600 #caindo do começo da tela
     unhealth_foody = -600 #caindo do começo da tela
-    thing_speed = 4 #velocidade da agulha
-    thing_width = 15 #largura da agulha
-    thing_height = 70 #altura da agulha
+    thing_speed = 4 #velocidade da comida
+    thing_width = 15 #largura da comida
+    thing_height = 70 #altura da comida
     timer = 0# Um timer começando do zero
 
     segundos = 0
@@ -490,8 +474,6 @@ def game_loop():#o loop do jogo
     timer = 0
     displaytimer = 0
     py.mixer.Channel(0).play(py.mixer.Sound('Jogo/music/trilha_top_gear.mp3'), maxtime=-1)
-
-
 
     gameExit = False #variavel de loop
     while not gameExit: #enquanto verdadeiro = not False
@@ -517,7 +499,7 @@ def game_loop():#o loop do jogo
                         game_over()
                     else:
                         y_change = -1
-                        #y é decrescido para o balão subir
+                        #y é decrescido para o personagem subir
                         
                 elif event.key == py.K_DOWN:#para descer
                     if y +bal_height > display_height:
@@ -551,7 +533,7 @@ def game_loop():#o loop do jogo
 
         health_food_img = health_food(health_foodx, health_foody)#chama função para renderizar
         unhealth_food_img =unhealth_food(unhealth_foodx, unhealth_foody)
-        health_foody += thing_speed #soma a velocidade a cada loop e desvio de agulha
+        health_foody += thing_speed #soma a velocidade a cada loop e desvio de comida
         unhealth_foody += thing_speed
         villain_foody += thing_speed
 
@@ -566,9 +548,6 @@ def game_loop():#o loop do jogo
         things_dodge(dodge)# função para renderizar pontuação
         vidas()
 
-
-        
-
         #Incremento de tempo
         segundos = clock.tick()/230.0 # É um numero float. Por isso '.0'
         timer += segundos
@@ -579,21 +558,20 @@ def game_loop():#o loop do jogo
         textimer = fontimer.render("Timer: " + str(displaytimer), True, (255,255,255))#texto para ser renderizado com base no tempo
         screen.blit(textimer,(700,0))
 
-        if x >= display_width - bal_width or x <= 0: #não deixa o balão passar para fora da tela
+        if x >= display_width - bal_width or x <= 0: #não deixa o personagem passar para fora da tela
             x_change = 0#
 
-        if villain_foody > display_height:#caso a agulha chegue no final da tela
-            villain_foody = 0 - thing_height#reseta a altura
-            villain_foodx = random.randrange(0, display_width)#reseta posição da agulha em uma posição randomica diferente
+        if villain_foody > display_height:#caso a comida do vilao chegue no final da tela
+            villain_foody = 0 - thing_height#reseta a altura da comida
+            villain_foodx = random.randrange(0, display_width)#reseta posição da comida em uma posição randomica diferente
 
-        if health_foody > display_height:#caso a agulha chegue no final da tela
-            health_foody = 0 - thing_height#reseta a altura
-            health_foodx = random.randrange(0, display_width)#reseta posição da agulha em uma posição randomica diferente
+        if health_foody > display_height:#caso a comida saudavel chegue no final da tela
+            health_foody = 0 - thing_height#reseta a altura da comida
+            health_foodx = random.randrange(0, display_width)#reseta posição da comida em uma posição randomica diferente
         
-        if unhealth_foody > display_height:#caso a agulha chegue no final da tela
-            unhealth_foody = 0 - thing_height#reseta a altura
-            unhealth_foodx = random.randrange(0, display_width)#reseta posição da agulha em uma posição randomica diferente
-
+        if unhealth_foody > display_height:#caso a comida não saudavel chegue no final da tela
+            unhealth_foody = 0 - thing_height#reseta a altura da comida
+            unhealth_foodx = random.randrange(0, display_width)#reseta posição da comida em uma posição randomica diferente
 
         #Nível 2
         if displaytimer > 20 and displaytimer < 40:#caso desvie de 11 objetos chega no nivel 2
@@ -604,7 +582,8 @@ def game_loop():#o loop do jogo
                 screen.blit(TextSurf, TextRec)#printa na tela que está no nivel dois
                 py.display.flip()
 
-            thing_speed = 8 #aumenta a velocidade da agulha
+            thing_speed = 8 #aumenta a velocidade da comida
+            
         #Nível 3
         elif displaytimer > 40 and displaytimer < 60:
             if displaytimer > 40 and displaytimer < 42:
@@ -614,6 +593,7 @@ def game_loop():#o loop do jogo
                 screen.blit(TextSurf, TextRec)
                 py.display.flip()
             thing_speed = 12
+            
         #Nível 4
         elif displaytimer > 60 and displaytimer < 80:
             if displaytimer > 60 and displaytimer < 62:
@@ -663,9 +643,7 @@ def game_loop():#o loop do jogo
         py.display.flip()
         clock.tick(100)
 
-
 game_intro()#chama a introdução/menu para o jogo
-game_loop(balImg)
+#game_loop()
 py.quit()#caso o loop acabe sai do jogo
 quit()
-
